@@ -12,42 +12,69 @@ const UI = {
 UI.render( "<h1>Learn Design</h1>", "afterbegin" );
 
 UI.render( `<div id="kerning" contenteditable="true">
-	Wave
+	${stringToSpans( "Wave" )}
 </div>`,
 
 "afterbegin" );
 
+function stringToSpans( str ) {
+	var newHTML = '';
+
+	for (var i = 0; i < str.length; i++) {
+		newHTML += `<span>${str[i]}</span>`;
+	}
+
+	return newHTML;
+}
+
 function getPosition() {
-    if (window.getSelection) {
-        var sel = window.getSelection();
-        if (sel.getRangeAt) {
-            return sel.getRangeAt(0).startOffset;
-        }
-    }
-    return null;
+	if ( window.getSelection ) {
+		var sel = window.getSelection();
+
+		if (sel.anchorNode) {
+			return sel.anchorNode;
+		}
+	}
+	return null;
 }
 
 
 function kernControls(e) {
 	var pressed = e.keyCode,
-		 altPressed = e.altKey;
+		 altPressed = e.altKey,
+		 amount = 0;
 
 	switch( pressed ) {
 		case 18:
-			console.log( "Valid Alt" );
 			break;
 		case 37: case 39:
-			console.log( "Valid Arrow" );
-
 			if ( altPressed ) {
 				e.preventDefault();
-				console.log( kernArea.textContent.charAt( getPosition() ) );
-				var text = kernArea.textContent;
+				var text = kernArea;
 				var index = getPosition();
-				var text1 = text.substring(0, index);
-				var text2 = text.substring(index);
+				var currentLetterToKern = index.parentElement;
+				// Note: expected current letter may be dependent on
+				// arrow that was pressed.
 
-				kernArea.innerHTML = text1 + `<span class="kern"></span>` + text2;
+				if ( "" !== currentLetterToKern.style.letterSpacing ) {
+					amount = parseInt( currentLetterToKern.style.letterSpacing );
+				}
+
+				if ( pressed === 37 ) {
+					amount--;
+
+					if ( amount === 0 ) {
+						amount--;
+					}
+				} else {
+					amount++;
+
+					if ( amount === 0 ) {
+						amount++;
+					}
+				}
+
+				currentLetterToKern.style.letterSpacing = `${amount}px`;
 			};
 
 			break;

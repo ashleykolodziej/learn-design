@@ -1,16 +1,13 @@
 #kerning {
 	font-size: 110px;
 	text-align: center;
-	position: relative;
-	height: 95px;
-}
-
-.kern {
-	display: inline-block;
-	width: 25px;
-	height: 100%;
 }
 
 .kern:hover {
 	cursor: pointer;
+}
+
+#kerning span {
+	font-weight: normal;
+	letter-spacing: 1px;
 }
