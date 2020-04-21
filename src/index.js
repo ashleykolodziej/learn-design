@@ -85,6 +85,4 @@ function kernControls(e) {
 
 var kernArea = document.getElementById( `kerning` );
 
-console.log(kernArea);
-
 kernArea.addEventListener( 'keydown', kernControls );

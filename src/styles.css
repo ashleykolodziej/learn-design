@@ -1,6 +1,7 @@
 #kerning {
 	font-size: 110px;
 	text-align: center;
+	font-kerning: none;
 }
 
 .kern:hover {
