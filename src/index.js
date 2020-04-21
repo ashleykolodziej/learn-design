@@ -11,7 +11,9 @@ const UI = {
 
 UI.render( "<h1>Learn Design</h1>", "afterbegin" );
 
-UI.render( `<div id="kerning" contenteditable="true">Wave</div>`,
+UI.render( `<div id="kerning" contenteditable="true">
+	Wave
+</div>`,
 
 "afterbegin" );
 
@@ -39,7 +41,13 @@ function kernControls(e) {
 
 			if ( altPressed ) {
 				e.preventDefault();
-				console.log( getPosition() );
+				console.log( kernArea.textContent.charAt( getPosition() ) );
+				var text = kernArea.textContent;
+				var index = getPosition();
+				var text1 = text.substring(0, index);
+				var text2 = text.substring(index);
+
+				kernArea.innerHTML = text1 + `<span class="kern"></span>` + text2;
 			};
 
 			break;
@@ -49,5 +57,7 @@ function kernControls(e) {
 }
 
 var kernArea = document.getElementById( `kerning` );
+
+console.log(kernArea);
 
 kernArea.addEventListener( 'keydown', kernControls );
