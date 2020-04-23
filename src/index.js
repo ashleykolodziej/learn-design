@@ -17,7 +17,7 @@ UI.render( `<div id="kerning" contenteditable="true">
 
 "afterbegin" );
 
-var whichWay = null;
+var intendedDirection = null;
 
 function stringToSpans( str ) {
 	var newHTML = '';
@@ -29,35 +29,37 @@ function stringToSpans( str ) {
 	return newHTML;
 }
 
-function getPosition( whichWay ) {
+function getSelected( intendedDirection ) {
 	if ( window.getSelection ) {
 		var sel = window.getSelection();
 
-		if ( whichWay === "left" && sel.anchorNode ) {
-			if ( sel.type === "Range" ) {
-				return sel.anchorNode.children;
-			} else {
-				return sel.anchorNode.parentNode.previousSibling;
-			}
+		if ( sel.type === "Range" ) {
+			return sel.anchorNode.children;
+		}
+
+		if ( intendedDirection === "left" && sel.anchorNode ) {
+			return sel.anchorNode.parentNode.previousSibling;
 		} else {
-			if ( sel.type === "Range" ) {
-				return sel.anchorNode.children;
-			} else {
-				return sel.anchorNode.parentNode;
-			}
+			return sel.anchorNode.parentNode;
 		}
 	}
+
 	return null;
 }
 
-function isIterable(obj) {
-  if (obj == null) {
-    return false;
-  }
-  return typeof obj[Symbol.iterator] === 'function';
+function isIterable( obj ) {
+	if ( obj === null ) {
+		return false;
+	}
+
+	return typeof obj[Symbol.iterator] === 'function';
 }
 
-function getKerningValue( letter ) {
+function resetIntendedDirection() {
+	intendedDirection = null;
+}
+
+function getKerning( letter ) {
 	var kerning = 0;
 
 	if ( letter.style.letterSpacing !== "" ) {
@@ -67,36 +69,44 @@ function getKerningValue( letter ) {
 	return kerning;
 }
 
-function getKerning( selection ) {
-	var kerning = 0; // Initial value, if none has been set
-
-	if ( isIterable( selection ) ) {
-		kerning = []
-
-		for (var i = 0; i < kerning.length; i++) {
-			kerning.push( getKerningValue( kerning[i] ) );
-		}
+function adjustAmount( amount, direction ) {
+	if ( direction === "left" ) {
+		amount--;
 	} else {
-		kerning = getKerningValue( selection );
+		amount++;
 	}
 
-	return kerning;
+	return amount;
+}
+
+function kernLetter( letter, direction ) {
+	var amount = getKerning( letter );
+	amount = adjustAmount( amount, direction );
+	letter.style.letterSpacing = `${amount}px`;
+}
+
+function kernSelection( selection, direction ) {
+	if ( selection.length ) {
+		for ( var i = 0; i <= selection.length; i++ ) {
+			kernLetter( selection[i], direction );
+		}
+	} else {
+		kernLetter( selection, direction );
+	}
 }
 
 function kernControls(e) {
 	var pressed = e.keyCode,
 		 altPressed = e.altKey,
 		 metaPressed = e.metaKey,
-		 currentLetter = getPosition(),
-		 amount = 0;
+		 selected = getSelected();
 
-	if ( whichWay !== null ) {
-		currentLetter = getPosition( whichWay );
+	if ( intendedDirection !== null ) {
+		selected = getSelected( intendedDirection );
 	}
 
 	if ( altPressed ) {
 		e.preventDefault();
-		amount = getKerning( currentLetter );
 	}
 
 	// Prevent default for all keypresses except alt and arrows.
@@ -107,48 +117,25 @@ function kernControls(e) {
 			if ( !metaPressed ) {
 				e.preventDefault();
 			} else {
-				currentLetter = getPosition();
-
-				for (var i = 0; i <= currentLetter.length; i++ ) {
-					currentLetter[i];
-				}
+				selected = getSelected();
 			}
 			break;
 		case 37:
 			if ( altPressed ) {
-				// This feels weird. Refactor maybe
-				amount--;
-
-				if ( currentLetter.length ) {
-					for (var i = 0; i <= currentLetter.length; i++ ) {
-						var amount = getKerningValue( currentLetter[i] );
-						amount--;
-						currentLetter[i].style.letterSpacing = `${amount}px`;
-					}
-				} else {
-					currentLetter.style.letterSpacing = `${amount}px`;
-				}
+				kernSelection( selected, "left" );
 			} else {
-				whichWay = "left";
+				intendedDirection = "left";
 			}
+
 			break;
 
 		case 39:
 			if ( altPressed ) {
-				amount++;
-
-				if ( currentLetter.length ) {
-					for (var i = 0; i <= currentLetter.length; i++ ) {
-						var amount = getKerningValue( currentLetter[i] );
-						amount++;
-						currentLetter[i].style.letterSpacing = `${amount}px`;
-					}
-				} else {
-					currentLetter.style.letterSpacing = `${amount}px`;
-				}
+				kernSelection( selected, "right" );
 			} else {
-				whichWay = "right";
+				intendedDirection = "right";
 			}
+
 			break;
 
 		default:
@@ -158,6 +145,5 @@ function kernControls(e) {
 
 var kernArea = document.getElementById( `kerning` );
 
-// Might need an addt event listener for focus or click or something.
-// When you go away and come back, we need to set whichWay back to null.
 kernArea.addEventListener( 'keydown', kernControls );
+kernArea.addEventListener( 'click', resetintendedDirection );
