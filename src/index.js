@@ -17,67 +17,131 @@ UI.render( `<div id="kerning" contenteditable="true">
 
 "afterbegin" );
 
+var whichWay = null;
+
 function stringToSpans( str ) {
 	var newHTML = '';
 
-	for (var i = 0; i < str.length; i++) {
+	for ( var i = 0; i < str.length; i++ ) {
 		newHTML += `<span>${str[i]}</span>`;
 	}
 
 	return newHTML;
 }
 
-function getPosition() {
+function getPosition( whichWay ) {
 	if ( window.getSelection ) {
 		var sel = window.getSelection();
 
-		if (sel.anchorNode) {
-			return sel.anchorNode;
+		if ( whichWay === "left" && sel.anchorNode ) {
+			if ( sel.type === "Range" ) {
+				return sel.anchorNode.children;
+			} else {
+				return sel.anchorNode.parentNode.previousSibling;
+			}
+		} else {
+			if ( sel.type === "Range" ) {
+				return sel.anchorNode.children;
+			} else {
+				return sel.anchorNode.parentNode;
+			}
 		}
 	}
 	return null;
 }
 
+function isIterable(obj) {
+  if (obj == null) {
+    return false;
+  }
+  return typeof obj[Symbol.iterator] === 'function';
+}
+
+function getKerningValue( letter ) {
+	if ( letter.style.letterSpacing !== "" ) {
+		kerning = parseInt( letter.style.letterSpacing );
+	}
+
+	return kerning;
+}
+
+function getKerning( selection ) {
+	var kerning = 0; // Initial value, if none has been set
+
+	if ( isIterable( selection ) ) {
+		kerning = []
+
+		for (var i = 0; i < kerning.length; i++) {
+			kerning.push( getKerningValue( kerning[i] ) );
+		}
+	} else {
+		kerning = getKerningValue( kerning[i] );
+	}
+
+	return kerning;
+}
 
 function kernControls(e) {
 	var pressed = e.keyCode,
 		 altPressed = e.altKey,
+		 metaPressed = e.metaKey,
+		 currentLetter = getPosition(),
 		 amount = 0;
 
+	if ( whichWay !== null ) {
+		currentLetter = getPosition( whichWay );
+	}
+
+	if ( altPressed ) {
+		e.preventDefault();
+		amount = getKerning( currentLetter );
+	}
+
+	// Prevent default for all keypresses except alt and arrows.
 	switch( pressed ) {
-		case 18:
+		case 18: case 224:
 			break;
-		case 37: case 39:
-			if ( altPressed ) {
+		case 65:
+			if ( !metaPressed ) {
 				e.preventDefault();
-				var text = kernArea;
-				var index = getPosition();
-				var currentLetterToKern = index.parentElement;
-				// Note: expected current letter may be dependent on
-				// arrow that was pressed.
+			} else {
+				currentLetter = getPosition();
 
-				if ( "" !== currentLetterToKern.style.letterSpacing ) {
-					amount = parseInt( currentLetterToKern.style.letterSpacing );
+				for (var i = 0; i <= currentLetter.length; i++ ) {
+					currentLetter[i];
 				}
-
-				if ( pressed === 37 ) {
-					amount--;
-
-					if ( amount === 0 ) {
-						amount--;
-					}
-				} else {
-					amount++;
-
-					if ( amount === 0 ) {
-						amount++;
-					}
-				}
-
-				currentLetterToKern.style.letterSpacing = `${amount}px`;
-			};
-
+			}
 			break;
+		case 37:
+			if ( altPressed ) {
+				amount--;
+
+				for (var i = 0; i <= currentLetter.length; i++ ) {
+					console.log("left nonsense");
+					currentLetter[i];
+				}
+
+				currentLetter.style.letterSpacing = `${amount}px`;
+			} else {
+				whichWay = "left";
+			}
+			break;
+
+		case 39:
+			if ( altPressed ) {
+				amount++;
+
+				for (var i = 0; i <= currentLetter.length; i++ ) {
+					console.log("right nonsense");
+					currentLetter[i];
+				}
+
+				currentLetter.style.letterSpacing = `${amount}px`;
+			} else {
+				whichWay = "right";
+			}
+			break;
+
 		default:
 			e.preventDefault();
 	}
