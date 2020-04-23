@@ -58,6 +58,8 @@ function isIterable(obj) {
 }
 
 function getKerningValue( letter ) {
+	var kerning = 0;
+
 	if ( letter.style.letterSpacing !== "" ) {
 		kerning = parseInt( letter.style.letterSpacing );
 	}
@@ -75,7 +77,7 @@ function getKerning( selection ) {
 			kerning.push( getKerningValue( kerning[i] ) );
 		}
 	} else {
-		kerning = getKerningValue( kerning[i] );
+		kerning = getKerningValue( selection );
 	}
 
 	return kerning;
@@ -116,12 +118,15 @@ function kernControls(e) {
 			if ( altPressed ) {
 				amount--;
 
-				for (var i = 0; i <= currentLetter.length; i++ ) {
-					console.log("left nonsense");
-					currentLetter[i];
+				if ( currentLetter.length ) {
+					for (var i = 0; i <= currentLetter.length; i++ ) {
+						var amount = getKerningValue( currentLetter[i] );
+						amount--;
+						currentLetter[i].style.letterSpacing = `${amount}px`;
+					}
+				} else {
+					currentLetter.style.letterSpacing = `${amount}px`;
 				}
-
-				currentLetter.style.letterSpacing = `${amount}px`;
 			} else {
 				whichWay = "left";
 			}
@@ -131,12 +136,15 @@ function kernControls(e) {
 			if ( altPressed ) {
 				amount++;
 
-				for (var i = 0; i <= currentLetter.length; i++ ) {
-					console.log("right nonsense");
-					currentLetter[i];
+				if ( currentLetter.length ) {
+					for (var i = 0; i <= currentLetter.length; i++ ) {
+						var amount = getKerningValue( currentLetter[i] );
+						amount++;
+						currentLetter[i].style.letterSpacing = `${amount}px`;
+					}
+				} else {
+					currentLetter.style.letterSpacing = `${amount}px`;
 				}
-
-				currentLetter.style.letterSpacing = `${amount}px`;
 			} else {
 				whichWay = "right";
 			}
