@@ -116,6 +116,7 @@ function kernControls(e) {
 			break;
 		case 37:
 			if ( altPressed ) {
+				// This feels weird. Refactor maybe
 				amount--;
 
 				if ( currentLetter.length ) {
@@ -157,4 +158,6 @@ function kernControls(e) {
 
 var kernArea = document.getElementById( `kerning` );
 
+// Might need an addt event listener for focus or click or something.
+// When you go away and come back, we need to set whichWay back to null.
 kernArea.addEventListener( 'keydown', kernControls );
