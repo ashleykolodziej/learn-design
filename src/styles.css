@@ -1,4 +1,4 @@
-#kerning {
+.kernable {
 	font-size: 110px;
 	text-align: center;
 	font-kerning: none;
@@ -8,7 +8,7 @@
 	cursor: pointer;
 }
 
-#kerning span {
+.kernable span {
 	font-weight: normal;
 	letter-spacing: 1px;
 }
