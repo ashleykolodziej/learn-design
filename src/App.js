@@ -1,8 +1,7 @@
 import React from 'react';
 import Kernable from './components/kernable';
-import './App.css';
 
-import "./styles.css";
+import "./styles.scss";
 
 function App() {
   return (
