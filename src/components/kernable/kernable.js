@@ -1,5 +1,6 @@
 import React from 'react';
-import { stringToSpans } from './library';
+import { stringToSpans } from 'components/library';
+import './kernable.scss';
 
 /**
 * "Intent" only happens when you hit an arrow, so when you
