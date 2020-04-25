@@ -171,6 +171,7 @@ class Kernable extends React.Component {
 		return (
 			<div className="kernable"
 				contentEditable="true"
+				suppressContentEditableWarning={true}
 				onKeyDown={this.kern}
 				onClick={this.resetState}>
 				{stringToSpans(this.props.word)}
