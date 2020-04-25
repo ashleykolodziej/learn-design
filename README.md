@@ -10,5 +10,3 @@ An open, react-based set of experimental exercises for students to learn design 
 - cd to directory and `npm install`
 - `npm run start` to begin editing
 - `npm run build` to create a final build
-
-https://reactjs.org/tutorial/tutorial.html
