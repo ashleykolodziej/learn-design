@@ -121,6 +121,7 @@ class Kern extends React.Component {
 			<div id="kerning"
 				contenteditable="true"
 				onKeyDown={this.kernControls}
+				onClick={this.resetIntendedDirection}
 			>
 				{type}
 			</div>
