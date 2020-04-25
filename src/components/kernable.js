@@ -1,39 +1,29 @@
 import React from 'react';
 import { stringToSpans } from './library';
 
-class Kern extends React.Component {
+const initialState = {
+	intendedDirection: null,
+};
+
+class Kernable extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			intendedDirection: null,
+			...initialState,
 		};
+
+		// Pass "this" to callbacks
+		this.kern = this.kern.bind(this);
+		this.resetState = this.resetState.bind(this);
 	}
 
-	resetIntendedDirection = () => {
-		this.setState({ intendedDirection: null });
+	resetState() {
+		this.setState({
+			intendedDirection: null,
+		});
 	}
 
-	getKerning = ( letter ) => {
-		var kerning = 0;
-
-		if ( letter.style.letterSpacing !== "" ) {
-			kerning = parseInt( letter.style.letterSpacing );
-		}
-
-		return kerning;
-	}
-
-	adjustAmount = ( amount, direction ) => {
-		if ( direction === "left" ) {
-			amount--;
-		} else {
-			amount++;
-		}
-
-		return amount;
-	}
-
-	getSelected = ( intendedDirection ) => {
+	getSelected( intendedDirection ) {
 		if ( window.getSelection ) {
 			var sel = window.getSelection();
 
@@ -51,13 +41,33 @@ class Kern extends React.Component {
 		return null;
 	}
 
-	kernLetter = ( letter, direction ) => {
+	getKerning( letter ) {
+		var kerning = 0;
+
+		if ( letter.style.letterSpacing !== "" ) {
+			kerning = parseInt( letter.style.letterSpacing );
+		}
+
+		return kerning;
+	}
+
+	adjustAmount( amount, direction ) {
+		if ( direction === "left" ) {
+			amount--;
+		} else {
+			amount++;
+		}
+
+		return amount;
+	}
+
+	kernLetter( letter, direction ) {
 		var amount = this.getKerning( letter );
 		amount = this.adjustAmount( amount, direction );
 		letter.style.letterSpacing = `${amount}px`;
 	}
 
-	kernSelection = ( selection, direction ) => {
+	kernSelection( selection, direction ) {
 		if ( selection.length ) {
 			for ( var i = 0; i < selection.length; i++ ) {
 				this.kernLetter( selection[i], direction );
@@ -67,7 +77,7 @@ class Kern extends React.Component {
 		}
 	}
 
-	kernControls = (e) => {
+	kern(e) {
 		var pressed = e.keyCode,
 			 altPressed = e.altKey,
 			 metaPressed = e.metaKey,
@@ -116,17 +126,15 @@ class Kern extends React.Component {
 	}
 
 	render() {
-		let type = stringToSpans(this.props.word);
 		return (
 			<div id="kerning"
-				contenteditable="true"
-				onKeyDown={this.kernControls}
-				onClick={this.resetIntendedDirection}
-			>
-				{type}
+				contentEditable="true"
+				onKeyDown={this.kern}
+				onClick={this.resetState}>
+				{stringToSpans(this.props.word)}
 			</div>
 		);
 	}
 }
 
-export default Kern;
+export default Kernable;

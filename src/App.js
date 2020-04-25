@@ -1,6 +1,5 @@
 import React from 'react';
-import Kern from './components/kern';
-import logo from './logo.svg';
+import Kernable from './components/kernable';
 import './App.css';
 
 import "./styles.css";
@@ -8,8 +7,8 @@ import "./styles.css";
 function App() {
   return (
     <div className="App">
-      <Kern word="Wave"/>
-      <Kern word="Ashley"/>
+      <Kernable word="Wave"/>
+      <Kernable word="Ashley"/>
     </div>
   );
 }
