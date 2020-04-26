@@ -1,0 +1,12 @@
+{
+	"title": "Some string here",
+	"directions": "Some directions here",
+	"component": [
+		{
+			"type": "Kernable",
+			"props": {
+				"word": "elements"
+			}
+		}
+	]
+}
