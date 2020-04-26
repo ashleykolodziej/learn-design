@@ -1,0 +1,12 @@
+{
+	"title": "Demo exercise",
+	"directions": "This demonstrates the data structure for an exercise. If you're seeing it, something probably went wrong.",
+	"component": [
+		{
+			"type": "Kernable",
+			"props": {
+				"word": "kernable type"
+			}
+		}
+	]
+}
