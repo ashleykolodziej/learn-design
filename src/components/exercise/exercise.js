@@ -28,10 +28,10 @@ class Exercise extends Component {
 	* See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 	*/
 
-	createElement = ( component ) => {
+	createElement = ( component, props = component.props ) => {
 		return( React.createElement(
 			Supported[component.type],
-			component.props
+			props
 		) );
 	}
 
