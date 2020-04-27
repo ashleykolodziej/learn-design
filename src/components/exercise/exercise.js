@@ -22,13 +22,6 @@ const Supported = {
 };
 
 class Exercise extends Component {
-	/**
-	* Returns React elements for each item in a
-	* definition tree.
-	*
-	* See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
-	*/
-
 	constructor(props) {
 		super(props);
 
@@ -36,6 +29,12 @@ class Exercise extends Component {
 			isLoading: false
 		};
 	}
+
+	/**
+	* If there is an exercise name defined, load the exercise data.
+	* Return an error if the exercise can't be found and show sample data instead.
+	* Finally, hold off on rendering until we know for sure what's going on.
+	*/
 
 	async componentDidMount() {
 		const exerciseName = this.props.name;
@@ -53,6 +52,11 @@ class Exercise extends Component {
 		}
 	}
 
+	/**
+	* Creates a React element based on an explicitly supported list of components
+	* for this type of component. See Supported above.
+	*/
+
 	createElement = ( component, props = component.props ) => {
 		return( React.createElement(
 			Supported[component.type],
@@ -63,14 +67,12 @@ class Exercise extends Component {
 	render() {
 		if ( this.state.isLoading ) return null;
 
-		console.log("the render");
-
 		return (
 			<Fragment>
 				<section className="exercise">
 					<h3 className="exercise-title">{exercise.title}</h3>
 					<p className="exercise-directions">{exercise.directions}</p>
-					{this.createElement( component )}
+					{ this.createElement( component ) }
 				</section>
 			</Fragment>
 		);
