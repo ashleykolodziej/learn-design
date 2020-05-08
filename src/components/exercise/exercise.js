@@ -55,6 +55,11 @@ class Exercise extends Component {
 	/**
 	* Creates a React element based on an explicitly supported list of components
 	* for this type of component. See Supported above.
+	*
+	* TODO: Create an optional generative exercise button.
+	*
+	* TODO: Create a button that does something appropriate on submit here,
+	* such as post to WordPress blog.
 	*/
 
 	createElement = ( component, props = component.props ) => {
