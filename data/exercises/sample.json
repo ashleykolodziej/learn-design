@@ -1,0 +1,13 @@
+{
+	"title": "An actual exercise",
+	"directions": "This demonstrates a (successfully!) called exercise.",
+	"component": [
+		{
+			"type": "Kernable",
+			"props": {
+				"word": "Waving hello"
+			}
+		}
+	],
+	"validResponses": [],
+}
