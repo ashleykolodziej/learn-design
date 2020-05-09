@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { stringToSpans } from 'components/library';
+import { Box, Button } from "@chakra-ui/core";
 import './kernable.scss';
 
 /**
@@ -169,13 +170,18 @@ class Kernable extends React.Component {
 	*/
 	render() {
 		return (
-			<div className="kernable"
-				contentEditable="true"
-				suppressContentEditableWarning={ true }
-				onKeyDown={ this.kern }
-				onClick={ this.resetState }>
-				{ stringToSpans( this.props.word ) }
-			</div>
+			<Fragment>
+				<Box m={10}
+					className="kernable"
+					contentEditable="true"
+					suppressContentEditableWarning={ true }
+					onKeyDown={ this.kern }
+					onClick={ this.resetState }>
+					{ stringToSpans( this.props.word ) }
+				</Box>
+				<Button backgroundColor="gray.200" mr={5}>Check Answer</Button>
+				<Button variantColor="green" mr={0}>Submit</Button>
+			</Fragment>
 		);
 	}
 }
