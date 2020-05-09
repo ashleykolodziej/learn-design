@@ -179,7 +179,7 @@ class Kernable extends React.Component {
 					onClick={ this.resetState }>
 					{ stringToSpans( this.props.word ) }
 				</Box>
-				<Button backgroundColor="gray.200" mr={5}>Check Answer</Button>
+				<Button variantColor="gray" mr={5}>Check Answer</Button>
 				<Button variantColor="green" mr={0}>Submit</Button>
 			</Fragment>
 		);
