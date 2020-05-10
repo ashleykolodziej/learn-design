@@ -80,21 +80,24 @@ class Profile extends Component {
 
 		return (
 			<Fragment>
-			<Banner pageTitle="Your Progress" />
-			<Card m={0}>
-				<Flex alignItems="center" mb={10}>
-					<Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px">
+			<Banner pageTitle="Your Progress">
+			</Banner>
+			<Flex pt={5} pb={5} pl={100} pr={100}>
+				<Flex alignItems="center">
+					<Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px" width={75}>
 						<img src={userInfo.avatar_URL} alt={userInfo.display_name} />
 					</Box>
-					<Heading as="h1">Hi, {userInfo.display_name}!</Heading>
+					<Heading as="h2" size="md">Hi, {userInfo.display_name}!</Heading>
 				</Flex>
-				<Heading as="h2" size="md">Your connected portfolios: </Heading>
-				<Card mt={5} ml={0} p={5} shadow="sm" display="inline-block">
-					<Heading as="h3" size="sm">{siteInfo.name}</Heading>
-					<Link href={siteInfo.URL} isExternal color="blue.700">Visit site</Link> |
-					<Link href={siteInfo.options.admin_url} isExternal color="blue.700"> Site settings</Link>
-				</Card>
-			</Card>
+				<Flex align="center" ml="auto" mr={0}>
+					<Heading as="h3" size="md">Connected portfolios: </Heading>
+					<Card mt={0} ml={5} mb={0} p={5} shadow="sm">
+						<Heading as="h4" size="sm">{siteInfo.name}</Heading>
+						<Link href={siteInfo.URL} isExternal color="blue.700">Visit site</Link> |
+						<Link href={siteInfo.options.admin_url} isExternal color="blue.700"> Site settings</Link>
+					</Card>
+				</Flex>
+			</Flex>
 			</Fragment>
 		)
 	}
