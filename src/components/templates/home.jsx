@@ -1,5 +1,5 @@
 import React from "react";
-import { Banner } from 'components/ui/banner';
+import { Banner } from 'components/ui/ui';
 
 const Home = props => {
   return (

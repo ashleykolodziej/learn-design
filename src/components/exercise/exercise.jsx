@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Box, Heading, Button, Text } from "@chakra-ui/core";
-import { Card } from 'components/ui/card';
+import { Card } from 'components/ui/ui';
 
 import Kernable from 'components/kernable/kernable';
 import data from "./demo";
-import './exercise.scss';
 
 let exercise = data;
 let component = exercise.component[0];

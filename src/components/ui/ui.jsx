@@ -9,3 +9,19 @@ export function Banner( props ) {
 		</Box>
 	);
 }
+
+export function Page( props ) {
+	return (
+		<Box p={100} m={0} {...props}>
+			{props.children}
+		</Box>
+	);
+}
+
+export function Card( props ) {
+	return (
+		<Box shadow="xl" borderWidth="1px" p={10} m={10} {...props}>
+			{props.children}
+		</Box>
+	);
+}
