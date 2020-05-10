@@ -1,5 +1,6 @@
 import React from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
+import LoginButton from "./login/login";
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -56,10 +57,7 @@ const Header = props => {
         display={{ sm: show ? "block" : "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <Button bg="transparent" border="1px" mr={5}>
-          Create account
-        </Button>
-
+        <LoginButton />
         <Button bg="transparent" border="1px" onClick={toggleColorMode}>
           Toggle {colorMode === "light" ? "Dark" : "Light"}
         </Button>
