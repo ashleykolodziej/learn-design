@@ -1,6 +1,16 @@
 import React from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
 import LoginButton from "./login/login";
+import Docs from "./templates/docs";
+import Examples from "./templates/examples";
+import Blog from "./templates/blog";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -14,6 +24,7 @@ const Header = props => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
+    <Router>
     <Flex
       as="nav"
       align="center"
@@ -48,9 +59,9 @@ const Header = props => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems>Docs</MenuItems>
-        <MenuItems>Examples</MenuItems>
-        <MenuItems>Blog</MenuItems>
+        <MenuItems><Link to="/docs">Docs</Link></MenuItems>
+        <MenuItems><Link to="/examples">Examples</Link></MenuItems>
+        <MenuItems><Link to="/blog">Blog</Link></MenuItems>
       </Box>
 
       <Box
@@ -63,6 +74,18 @@ const Header = props => {
         </Button>
       </Box>
     </Flex>
+    <Switch>
+      <Route exact path="/docs">
+        <Docs />
+      </Route>
+      <Route path="/examples">
+        <Examples />
+      </Route>
+      <Route path="/blog">
+        <Blog />
+      </Route>
+    </Switch>
+    </Router>
   );
 };
 
