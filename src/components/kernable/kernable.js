@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { stringToSpans } from 'components/library';
+import WPSubmit from 'components/WPSubmit';
 import { Box, Button } from "@chakra-ui/core";
 import './kernable.scss';
 
@@ -180,7 +181,7 @@ class Kernable extends React.Component {
 					{ stringToSpans( this.props.word ) }
 				</Box>
 				<Button variantColor="gray" mr={5}>Check Answer</Button>
-				<Button variantColor="green" mr={0}>Submit</Button>
+				<WPSubmit />
 			</Fragment>
 		);
 	}
