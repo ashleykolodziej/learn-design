@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Box, Heading, Button, Text } from "@chakra-ui/core";
+import { Card } from 'components/ui/card';
+
 import Kernable from 'components/kernable/kernable';
 import data from "./demo";
 import './exercise.scss';
@@ -75,11 +77,11 @@ class Exercise extends Component {
 
 		return (
 			<Fragment>
-				<Box shadow="xl" borderWidth="1px" p={10} textAlign="right">
+				<Card textAlign="right">
 					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
 					<Text fontSize="lg" textAlign="left">{exercise.directions}</Text>
 					{ this.createElement( component ) }
-				</Box>
+				</Card>
 			</Fragment>
 		);
 	}
