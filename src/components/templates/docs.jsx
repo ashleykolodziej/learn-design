@@ -1,9 +1,9 @@
 import React from "react";
-import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
+import { Banner } from 'components/ui/banner';
 
 const Docs = props => {
   return (
-    <Box>Docs page</Box>
+    <Banner pageTitle="Docs" />
   );
 };
 

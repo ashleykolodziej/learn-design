@@ -4,6 +4,8 @@ import { Card } from 'components/ui/card';
 import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';
 
+import { Banner } from 'components/ui/banner';
+
 const clientID = 68924,
 		wpcomOAuth = wpcomOAuthFactory( clientID );
 
@@ -78,6 +80,7 @@ class Profile extends Component {
 
 		return (
 			<Fragment>
+			<Banner pageTitle="Your Progress" />
 			<Card m={0}>
 				<Flex alignItems="center" mb={10}>
 					<Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px">

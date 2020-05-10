@@ -43,10 +43,10 @@ const Header = props => {
         </Heading>
       </Flex>
 
-      <Box display={{ sm: "block", md: "none" }} onClick={handleToggle}>
+      <Box display={{ xs: "block", md: "none" }} onClick={handleToggle}>
         <svg
           fill="white"
-          width="12px"
+          width="20px"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -56,8 +56,8 @@ const Header = props => {
       </Box>
 
       <Box
-        display={{ sm: show ? "block" : "none", md: "flex" }}
-        width={{ sm: "full", md: "auto" }}
+        display={{ xs: show ? "block" : "none", md: "flex" }}
+        width={{ xs: "full", md: "auto" }}
         alignItems="center"
         flexGrow={1}
       >
@@ -68,7 +68,7 @@ const Header = props => {
       </Box>
 
       <Box
-        display={{ sm: show ? "block" : "none", md: "block" }}
+        display={{ xs: show ? "block" : "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
         <LoginButton />
