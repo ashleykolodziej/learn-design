@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from "@chakra-ui/core";
-import wpcomXhrRequest from 'wpcom-xhr-request';
 import wpcomFactory from 'wpcom';
+import wpcomOAuthFactory from 'wpcom-oauth-cors';
 
 const clientID = 68924,
-		wpcomOAuth = require('wpcom-oauth-cors')(clientID);
+		wpcomOAuth = wpcomOAuthFactory( clientID );
 
 
 class LoginButton extends Component {
@@ -18,31 +18,15 @@ class LoginButton extends Component {
 
 	getAuthorization() {
 		wpcomOAuth.get(function(auth){
-			// Here, your token is available as auth.access_token
-
-			// Valid? https://public-api.wordpress.com/oauth2/token-info?client_id=68924&token=ooEwSigVtdIzV%26t%2860AHzhJO%26%21pybci8%2AQXP5AY0NKF77uD%290iinGOAKPRb%29DX4v
-			// https://github.com/codebykat/metonymic/blob/master/amanuensis/js/login.js
-
-			const wpcom = wpcomFactory( auth.access_token, wpcomXhrRequest );
-
-			console.log(wpcom);
+			const wpcom = wpcomFactory( auth.access_token );
 
 			const siteID = auth.site_id;
 			const site = wpcom.site( siteID );
 
-			site.postsList({ number: 50, fields: "author,URL,title,slug" }, function(err, list) {
-				//console.log( list );
-			});
-
-			site.post( { slug: 'test-post' } ).get( function (err, data) {
-				console.log(err)
-				console.log(data)
-			} )
-
-			site.addPost({ title: 'It is my new post' }, function(err, post){
-				console.log(err);
-				console.log(post);
-			});
+			/*site.addPost( { title: 'Testing auth' }, function(err, post){
+				//console.log(err);
+				//console.log(post);
+			});*/
 
 		});
 	}
