@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { stringToSpans } from 'components/library';
 import WPSubmit from 'components/WPSubmit';
 import { Box, Button } from "@chakra-ui/core";
@@ -13,7 +13,7 @@ const initialState = {
 	intendedDirection: null,
 };
 
-class Kernable extends React.Component {
+class Kernable extends Component {
 	/**
 	* Build a kernable word from settings, and help our event
 	* listeners understand the context of "this".
