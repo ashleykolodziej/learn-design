@@ -44,7 +44,13 @@ class WPSubmit extends Component {
 
 			// Free image compression API here: http://resmush.it/
 
-			site.addPost( { title: 'Testing project auth', type: 'jetpack-portfolio' }, function(err, post){
+			site.addPost( {
+				title: 'Testing project auth',
+				type: 'jetpack-portfolio',
+				tags: [
+					'bucomlearnsdesign'
+				]
+			}, function(err, post){
 				console.log(err);
 				console.log(post);
 			});

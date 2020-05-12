@@ -6,6 +6,7 @@ import Profile from "./templates/profile";
 import Docs from "./templates/docs";
 import Examples from "./templates/examples";
 import Blog from "./templates/blog";
+import Critique from "./templates/critique";
 
 import {
   BrowserRouter as Router,
@@ -64,6 +65,7 @@ const Header = props => {
         <MenuItems><Link to="/docs">Docs</Link></MenuItems>
         <MenuItems><Link to="/examples">Examples</Link></MenuItems>
         <MenuItems><Link to="/blog">Blog</Link></MenuItems>
+        <MenuItems><Link to="/critique">Critique</Link></MenuItems>
         <MenuItems><Link to="/profile">Profile</Link></MenuItems>
       </Box>
 
@@ -89,6 +91,9 @@ const Header = props => {
       </Route>
       <Route path="/blog">
         <Blog />
+      </Route>
+      <Route path="/critique">
+        <Critique />
       </Route>
       <Route path="/profile">
         <Profile />
