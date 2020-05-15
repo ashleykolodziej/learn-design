@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useState } from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
 import LoginButton from "./login/login";
 import Home from "./templates/home";
@@ -7,6 +7,8 @@ import Docs from "./templates/docs";
 import Examples from "./templates/examples";
 import Blog from "./templates/blog";
 import Critique from "./templates/critique";
+import Inspiration from "./templates/inspiration";
+import data from "../data/class/site.json";
 
 import {
   BrowserRouter as Router,
@@ -15,19 +17,51 @@ import {
   Link
 } from "react-router-dom";
 
+const Supported = {
+  Blog,
+  Critique,
+  Docs,
+  Examples,
+  Inspiration,
+  Profile
+};
+
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
     {children}
   </Text>
 );
 
-const Header = props => {
-  const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
-  const { colorMode, toggleColorMode } = useColorMode();
+class Header extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Router>
+    this.state = {
+      isLoading: false
+    };
+  }
+
+  /**
+  * Creates a React element based on an explicitly supported list of components
+  * for this type of component. See Supported above.
+  */
+
+  createElement = ( component, props = component.props ) => {
+    return( React.createElement(
+      Supported[component],
+      props
+    ) );
+  }
+
+  setShow = () => useState(false);
+  toggleColorMode = () => useColorMode();
+  handleToggle = () => this.setShow(!this.show);
+
+  render() {
+    if ( this.state.isLoading ) return null;
+
+    return (
+          <Router>
     <Flex
       as="nav"
       align="center"
@@ -36,15 +70,15 @@ const Header = props => {
       padding="1.5rem"
       bg="teal.500"
       color="white"
-      {...props}
+      {...this.props}
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg">
-          <Link to="/">Learn Design</Link>
+          <Link to="/">{data.title}</Link>
         </Heading>
       </Flex>
 
-      <Box display={{ xs: "block", md: "none" }} onClick={handleToggle}>
+      <Box display={{ xs: "block", md: "none" }}>
         <svg
           fill="white"
           width="20px"
@@ -57,25 +91,25 @@ const Header = props => {
       </Box>
 
       <Box
-        display={{ xs: show ? "block" : "none", md: "flex" }}
+        display={{ xs: "block", md: "flex" }}
         width={{ xs: "full", md: "auto" }}
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems><Link to="/docs">Docs</Link></MenuItems>
-        <MenuItems><Link to="/examples">Examples</Link></MenuItems>
-        <MenuItems><Link to="/blog">Blog</Link></MenuItems>
-        <MenuItems><Link to="/critique">Critique</Link></MenuItems>
-        <MenuItems><Link to="/profile">Profile</Link></MenuItems>
+        {data.pages.map((page, index) =>
+          <MenuItems key={index.toString()}>
+            <Link to={ "/" + page.name}>{page.template}</Link>
+          </MenuItems>
+        )}
       </Box>
 
       <Box
-        display={{ xs: show ? "block" : "none", md: "block" }}
+        display={{ xs: "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
         <LoginButton />
-        <Button bg="transparent" border="1px" onClick={toggleColorMode}>
-          Toggle {colorMode === "light" ? "Dark" : "Light"}
+        <Button bg="transparent" border="1px" onClick={this.toggleColorMode}>
+          Toggle {this.colorMode === "light" ? "Dark" : "Light"}
         </Button>
       </Box>
     </Flex>
@@ -83,24 +117,15 @@ const Header = props => {
       <Route exact path="/">
         <Home />
       </Route>
-      <Route exact path="/docs">
-        <Docs />
-      </Route>
-      <Route path="/examples">
-        <Examples />
-      </Route>
-      <Route path="/blog">
-        <Blog />
-      </Route>
-      <Route path="/critique">
-        <Critique />
-      </Route>
-      <Route path="/profile">
-        <Profile />
-      </Route>
+      {data.pages.map((page, index) =>
+        <Route key={index.toString()} exact path={ "/" + page.name}>
+          { this.createElement( page.template ) }
+        </Route>
+      )}
     </Switch>
     </Router>
-  );
-};
+    );
+  }
+}
 
 export default Header;

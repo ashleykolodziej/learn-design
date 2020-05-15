@@ -43,7 +43,7 @@ class Exercise extends Component {
 
 		if ( exerciseName ) {
 			this.setState({ isLoading: true });
-			const specifics = await import(`../../../data/exercises/${exerciseName}.json`).then(value => {
+			const specifics = await import(`../../data/exercises/${exerciseName}.json`).then(value => {
 				exercise = value.default;
 				component = exercise.component[0];
 				this.setState({ isLoading: false });

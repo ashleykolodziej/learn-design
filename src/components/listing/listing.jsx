@@ -56,13 +56,12 @@ class ProjectListing extends Component {
 				} );
 				*/
 
-			wpcom.req.get('/read/tags/design/posts?type=jetpack-portfolio&number=40' )
+			wpcom.req.get(`/read/tags/${this.props.tag}/posts?number=40` )
 				.then( ( data ) => {
 					this.setState( {
 						isLoading: false,
 						data: data
 					} );
-					//console.log(data);
 				} ).catch( ( error ) => {
 					console.warn( error );
 					this.setState( {

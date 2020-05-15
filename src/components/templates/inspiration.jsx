@@ -2,13 +2,13 @@ import React from "react";
 import { Banner } from 'components/ui/ui';
 import ProjectListing from 'components/listing/listing';
 
-const Critique = props => {
+const Inspiration = props => {
   return (
   	<>
-    <Banner pageTitle="Critique" />
-    <ProjectListing tag="bucomlearnsdesign" />
+    <Banner pageTitle="Inspiration" />
+    <ProjectListing tag="design" />
    </>
   );
 };
 
-export default Critique;
+export default Inspiration;

@@ -1,0 +1,33 @@
+{
+	"title": "Design Software & Strategy",
+	"section": "F2",
+	"semester": "Summer II",
+	"year": "2020",
+	"instructor": "Ashley Kolodziej",
+	"pages": [
+		{
+			"name": "docs",
+			"template": "Docs"
+		},
+		{
+			"name": "examples",
+			"template": "Examples"
+		},
+		{
+			"name": "blog",
+			"template": "Blog"
+		},
+		{
+			"name": "critique",
+			"template": "Critique"
+		},
+		{
+			"name": "inspiration",
+			"template": "Inspiration"
+		},
+		{
+			"name": "profile",
+			"template": "Profile"
+		}
+	]
+}

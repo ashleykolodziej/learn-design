@@ -40,13 +40,13 @@ class WPSubmit extends Component {
 			const site = wpcom.site( siteID );
 
 			// Post type is jetpack-portfolio
+			// But this won't let us use feeds, so we'll use normal posts.
 			// https://public-api.wordpress.com/rest/v1.2/sites/lldtestsite.wordpress.com/posts?type=jetpack-portfolio
 
 			// Free image compression API here: http://resmush.it/
 
 			site.addPost( {
 				title: 'Testing project auth',
-				type: 'jetpack-portfolio',
 				tags: [
 					'bucomlearnsdesign'
 				]
