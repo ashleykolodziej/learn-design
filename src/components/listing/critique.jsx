@@ -58,7 +58,7 @@ class Project extends Component {
 						  fontSize="20px"
 						  icon={RiHeartLine}
 						/>
-					<Button rightIcon={RiChatSmile3Line} variantColor="teal" variant="outline" ml="auto">
+						<Button rightIcon={RiChatSmile3Line} variantColor="teal" variant="outline" ml="auto">
 					    Critique
 					  </Button>
 					  </Flex>
