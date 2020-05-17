@@ -43,19 +43,9 @@ function LoadButton( { isLoading, children, ...props } ) {
 	);
 }
 
-function WPSubmit() {
+function WPSubmit( props ) {
 	const [ isUploading, setIsUploading ] = useState( false );
 	const toast = useToast();
-
-	function ShowLoading() {
-		console.log( this.getState() );
-
-		if ( isUploading ) {
-			return <Spinner />;
-		}
-
-		return;
-	}
 
 	/**
 	* Handles authorization.
@@ -79,7 +69,7 @@ function WPSubmit() {
 
 		// Free image compression API here: http://resmush.it/
 
-      const result = await site.addPost( post ).then( ( data ) => {
+      await site.addPost( post ).then( ( data ) => {
 			console.log("Success");
 			console.log(data);
 
@@ -108,7 +98,7 @@ function WPSubmit() {
 
 	return (
 		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
-			Submit
+			{ props.text || "Submit" }
 		</LoadButton>
 	);
 }

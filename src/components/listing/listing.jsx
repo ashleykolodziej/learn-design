@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from "@chakra-ui/core";
 import Project from 'components/listing/project';
-import { auth, wpcom } from 'components/authorize';
+import { wpcom } from 'components/authorize';
 
 /**
 * A set of explicitly supported components for exercises.

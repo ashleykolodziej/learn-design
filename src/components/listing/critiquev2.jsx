@@ -1,13 +1,37 @@
-import React, { Component, Fragment } from 'react';
-import { Grid, Box, Badge, Heading, Link, Button, IconButton, FormControl, Icon,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText, Input, Checkbox, CheckboxGroup, Textarea, Tabs, TabList, TabPanels, Tab, TabPanel, Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb } from "@chakra-ui/core";
-import { Banner, Card } from 'components/ui/ui';
-import { RiVipDiamondLine, RiBarChartGroupedLine, RiFile2Line, RiSearchLine, RiTodoLine, RiPaletteLine, RiPaintBrushLine, RiArtboard2Line, RiMarkupLine, RiFocus2Line, RiInputMethodLine, RiCheckboxLine, RiCharacterRecognitionLine, RiMagicLine, RiLightbulbLine } from "react-icons/ri";
+import React from 'react';
+import {
+	Grid,
+	Box,
+	Heading,
+	FormControl,
+	FormLabel,
+	FormHelperText,
+	Textarea,
+	Tabs,
+	TabList,
+	TabPanels,
+	Tab,
+	TabPanel,
+	Slider,
+	SliderTrack,
+	SliderFilledTrack,
+	SliderThumb } from "@chakra-ui/core";
+import {
+	RiVipDiamondLine,
+	RiBarChartGroupedLine,
+	RiFile2Line,
+	RiSearchLine,
+	RiTodoLine,
+	RiPaletteLine,
+	RiPaintBrushLine,
+	RiArtboard2Line,
+	RiMarkupLine,
+	RiFocus2Line,
+	RiCheckboxLine,
+	RiCharacterRecognitionLine,
+	RiMagicLine,
+	RiLightbulbLine } from "react-icons/ri";
+import WPSubmit from 'components/WPSubmit';
 
 /**
 * A set of explicitly supported components for exercises.
@@ -20,226 +44,148 @@ import { RiVipDiamondLine, RiBarChartGroupedLine, RiFile2Line, RiSearchLine, RiT
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-class CritiqueForm extends Component {
+const tabData = [
+	{
+		label: "Design",
+		icon: RiPaletteLine,
+		points: [
+			{
+				name: "Overall design",
+				icon: RiPaletteLine,
+				info: "Hint for overall design"
+			},
+			{
+				name: "Color",
+				icon: RiPaintBrushLine,
+				info: "Hint for color"
+			},
+			{
+				name: "Layout",
+				icon: RiArtboard2Line,
+				info: "Hint for layout"
+			},
+			{
+				name: "Typography",
+				icon: RiCharacterRecognitionLine,
+				info: "Hint for typography"
+			}
+		]
+	},
+	{
+		label: "Concept",
+		icon: RiLightbulbLine,
+		points: [
+			{
+				name: "Overall concept",
+				icon: RiLightbulbLine,
+				info: "Hint"
+			},
+			{
+				name: "Achieves project goals",
+				icon: RiCheckboxLine,
+				info: "Hint"
+			},
+			{
+				name: "Uniqueness",
+				icon: RiMagicLine,
+				info: "Hint"
+			},
+			{
+				name: "Appropriate for audience",
+				icon: RiFocus2Line,
+				info: "Hint"
+			}
+		]
+	},
+	{
+		label: "Execution",
+		icon: RiTodoLine,
+		points: [
+			{
+				name: "Overall execution",
+				icon: RiTodoLine,
+				info: "Hint"
+			},
+			{
+				name: "Attention to detail",
+				icon: RiSearchLine,
+				info: "Hint"
+			},
+			{
+				name: "Proper size/format",
+				icon: RiFile2Line,
+				info: "Hint"
+			},
+			{
+				name: "Usage and quality of resources",
+				icon: RiVipDiamondLine,
+				info: "Hint"
+			},
+			{
+				name: "Quality relative to peers",
+				icon: RiBarChartGroupedLine,
+				info: "Hint"
+			}
+		]
+	},
+];
 
-	render() {
+function CritiqueForm() {
+
+	function DataTabs({ data }) {
 		return (
-			<Grid templateColumns="repeat(4, 1fr)" gridGap={10}>
-				<Box gridColumn="span 2" bg='gray.100'>
-				</Box>
-				<Box gridColumn="span 2">
-				<Heading as="h3" size="md"><Box as={RiMarkupLine} float="left" size="8" mt="-4px" mr="5px" />Help improve this design</Heading>
+			<Tabs variant="enclosed" isFitted mt="5">
+				<TabList>
+					{data.map((tab, index) => (
+					<Tab key={index}><Box color="tomato" as={tab.icon} mr="5px" /> {tab.label}</Tab>
+					))}
+				</TabList>
+				<TabPanels p="5" border="1px" borderColor="gray.200">
+					{data.map((tab, index) => (
+						<TabPanel key={index}>
+							{tab.points.map((point, i) => (
+								<FormControl key={i}>
+									<FormLabel htmlFor="comments">{point.name}</FormLabel>
+									<Slider defaultValue={50}>
+									  <SliderTrack bg="red.100" />
+									  <SliderFilledTrack bg="tomato" />
+									  <SliderThumb size={6}>
+									    <Box color="tomato" as={point.icon} />
+									  </SliderThumb>
+									</Slider>
+									<FormHelperText id="email-helper-text">
+										{point.info}
+									</FormHelperText>
+								</FormControl>
+							))}
+						</TabPanel>
+					))}
+				</TabPanels>
+			</Tabs>
+		);
+	}
+
+	return (
+		<Grid templateColumns="repeat(4, 1fr)" gridGap={10}>
+			<Box gridColumn="span 2" bg='gray.100'>
+			</Box>
+			<Box gridColumn="span 2">
+				<Heading as="h3" size="md"><Box as={RiMarkupLine} float="left" size="8" mt="-4px" mr="5px" />Assess this design</Heading>
 				<FormHelperText id="email-helper-text">
-					Critique helps
+					Critique helps us improve our work collectively.
 				</FormHelperText>
-				<Tabs>
-				  <TabList>
-				    <Tab><Box color="tomato" as={RiPaletteLine} /> Design</Tab>
-				    <Tab><Box color="tomato" as={RiLightbulbLine} /> Concept</Tab>
-				    <Tab><Box color="tomato" as={RiTodoLine} /> Execution</Tab>
-				  </TabList>
-
-				  <TabPanels>
-				    <TabPanel>
-				    	<FormControl>
-							<FormLabel htmlFor="comments">Overall design</FormLabel>
-							<Slider defaultValue={50}>
-							  <SliderTrack bg="red.100" />
-							  <SliderFilledTrack bg="tomato" />
-							  <SliderThumb size={6}>
-							    <Box color="tomato" as={RiPaletteLine} />
-							  </SliderThumb>
-							</Slider>
-							<FormHelperText id="email-helper-text">
-								Hint for overall design
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Color</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiPaintBrushLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Layout</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiArtboard2Line} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Typography</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiCharacterRecognitionLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-				    </TabPanel>
-				    <TabPanel>
-				      <FormControl>
-							<FormLabel htmlFor="comments">Overall concept</FormLabel>
-							<Slider defaultValue={50}>
-							  <SliderTrack bg="red.100" />
-							  <SliderFilledTrack bg="tomato" />
-							  <SliderThumb size={6}>
-							    <Box color="tomato" as={RiLightbulbLine} />
-							  </SliderThumb>
-							</Slider>
-							<FormHelperText id="email-helper-text">
-								Hint for overall concept
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Achieves project goals</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiCheckboxLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Uniqueness</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiMagicLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Appropriate for audience</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiFocus2Line} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-				    </TabPanel>
-				    <TabPanel>
-				      <FormControl>
-							<FormLabel htmlFor="comments">Overall execution</FormLabel>
-							<Slider defaultValue={50}>
-							  <SliderTrack bg="red.100" />
-							  <SliderFilledTrack bg="tomato" />
-							  <SliderThumb size={6}>
-							    <Box color="tomato" as={RiTodoLine} />
-							  </SliderThumb>
-							</Slider>
-							<FormHelperText id="email-helper-text">
-								Hint for overall concept
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Attention to detail</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiSearchLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Proper size/format</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiFile2Line} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Usage and quality of resources</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiVipDiamondLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel htmlFor="comments">Quality relative to peers</FormLabel>
-							<Slider defaultValue={50}>
-						  <SliderTrack bg="red.100" />
-						  <SliderFilledTrack bg="tomato" />
-						  <SliderThumb size={6}>
-						    <Box color="tomato" as={RiBarChartGroupedLine} />
-						  </SliderThumb>
-						</Slider>
-							<FormHelperText id="email-helper-text">
-								We'll never share your email.
-							</FormHelperText>
-						</FormControl>
-				    </TabPanel>
-				  </TabPanels>
-				</Tabs>
-				</Box>
-				<Box gridColumn="span 4">
-				<FormControl>
-					<FormLabel htmlFor="comments">Comments</FormLabel>
+				<DataTabs data={tabData} />
+				<FormControl mt={10} mb={10}>
+					<FormLabel htmlFor="comments" mb="5px">How could this design be improved?</FormLabel>
 					<Textarea placeholder="Here is a sample placeholder" />
 					<FormHelperText id="email-helper-text">
-						We'll never share your email.
+						Hints
 					</FormHelperText>
 				</FormControl>
-				</Box>
-			</Grid>
-		)
-	}
+				<WPSubmit text="Submit Critique" />
+			</Box>
+		</Grid>
+	);
 }
 
 export default CritiqueForm;
