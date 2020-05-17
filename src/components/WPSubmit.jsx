@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from "@chakra-ui/core";
+import { Button, useToast } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
 
 /**
@@ -37,14 +37,27 @@ class WPSubmit extends Component {
 		// Free image compression API here: http://resmush.it/
 
 		site.addPost( {
-			title: 'Testing project auth separated',
+			title: 'Testing project auth w/promise',
 			tags: [
 				'bucomlearnsdesign'
 			]
-		}, function(err, post){
+		})
+		.then( ( data ) => {
+			console.log("Success");
+			console.log(data);
+			// This does not work but I don't understand how to fix it.
+			/*toast({
+				title: "Posted!",
+				description: `We've created your account for you. Check out your new project at ${data.url}.`,
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+			});*/
+		} )
+		.catch( (err, post) => {
 			console.log(err);
 			console.log(post);
-		});
+		} );
 	}
 
 	render() {

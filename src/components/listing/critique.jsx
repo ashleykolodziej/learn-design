@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Flex, Box, Badge, Heading, Link, Button, IconButton } from "@chakra-ui/core";
+import { Grid, Box, Badge, Heading, Link, Button, IconButton, FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText, Input, Checkbox, CheckboxGroup, Textarea } from "@chakra-ui/core";
 import { Banner, Card } from 'components/ui/ui';
 import { RiHeartLine, RiChatSmile3Line } from "react-icons/ri";
 
@@ -14,58 +17,87 @@ import { RiHeartLine, RiChatSmile3Line } from "react-icons/ri";
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-class Project extends Component {
-	constructor(props) {
-		super(props);
-	}
+class CritiqueForm extends Component {
 
 	render() {
-		//console.log(this.props.data);
-
-		let badge, thumburl;
-
-		if ( this.props.data.comment_count === 0 ) {
-			badge = <Badge position="absolute" variantColor="green">New</Badge>
-		}
-
-		if (
-			this.props.data.featured_media !== undefined &&
-			this.props.data.featured_media.type === "image"
-		) {
-			thumburl = this.props.data.featured_media.uri;
-		} else if ( this.props.data.featured_image ) {
-			thumburl = this.props.data.featured_image
-		} else {
-			return null;
-		}
-
 		return (
-			<Fragment>
-				<Card m={0} p={5} shadow="sm" position="relative">
-					{ badge }
-					<img src={ thumburl } alt={ 'Mockup of ' + this.props.data.title } />
-					<Flex align="center" mt={3}>
-					<Box borderRadius={200} overflow="hidden" display="inline-block" mr={2} borderWidth="1px" width={25}>
-						<img src={this.props.data.author.avatar_URL} alt={this.props.data.author.name} />
-					</Box>
-					<Heading as="h2" size="sm">{this.props.data.author.first_name} {this.props.data.author.last_name}</Heading>
-					</Flex>
-					<Flex align="center" mt={3}>
-					 <IconButton
-						  variant="ghost"
-						  variantColor="teal"
-						  aria-label="Like"
-						  fontSize="20px"
-						  icon={RiHeartLine}
-						/>
-						<Button rightIcon={RiChatSmile3Line} variantColor="teal" variant="outline" ml="auto">
-					    Critique
-					  </Button>
-					  </Flex>
-				</Card>
-			</Fragment>
+			<Grid templateColumns="repeat(4, 1fr)" gridGap={10}>
+				<Box gridColumn="span 2" bg='gray.100'>
+				</Box>
+				<Box>
+				<Heading as="h3" size="md">What's working well? 👏 </Heading>
+				<FormHelperText id="email-helper-text">
+					Select only if you're a fan.
+				</FormHelperText>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Design</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Color</Checkbox>
+						<Checkbox value="Nagato">Typography</Checkbox>
+						<Checkbox value="Itachi">Layout / Composition</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Concept</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Surprising or unique</Checkbox>
+						<Checkbox value="Nagato">Makes me think</Checkbox>
+						<Checkbox value="Itachi">Perfect for project goals</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Execution</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Awesome use of software</Checkbox>
+						<Checkbox value="Sasuke">Innovative use of traditional materials</Checkbox>
+						<Checkbox value="Nagato">Clean and tidy details</Checkbox>
+						<Checkbox value="Itachi">Itachi</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				</Box>
+				<Box>
+				<Heading as="h3" size="md">What could be improved? 👏 </Heading>
+				<FormHelperText id="email-helper-text">
+					Select only if you're a fan.
+				</FormHelperText>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Design</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Color</Checkbox>
+						<Checkbox value="Nagato">Typography</Checkbox>
+						<Checkbox value="Itachi">Layout / Composition</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Concept</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Surprising or unique</Checkbox>
+						<Checkbox value="Nagato">Makes me think</Checkbox>
+						<Checkbox value="Itachi">Perfect for project goals</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				<FormControl as="fieldset">
+					<FormLabel as="legend">Execution</FormLabel>
+					<CheckboxGroup>
+						<Checkbox value="Sasuke">Awesome use of software</Checkbox>
+						<Checkbox value="Sasuke">Innovative use of traditional materials</Checkbox>
+						<Checkbox value="Nagato">Clean and tidy details</Checkbox>
+						<Checkbox value="Itachi">Itachi</Checkbox>
+					</CheckboxGroup>
+				</FormControl>
+				</Box>
+				<Box gridColumn="span 4">
+				<FormControl>
+					<FormLabel htmlFor="comments">Comments</FormLabel>
+					<Textarea placeholder="Here is a sample placeholder" />
+					<FormHelperText id="email-helper-text">
+						We'll never share your email.
+					</FormHelperText>
+				</FormControl>
+				</Box>
+			</Grid>
 		)
 	}
 }
 
-export default Project;
+export default CritiqueForm;

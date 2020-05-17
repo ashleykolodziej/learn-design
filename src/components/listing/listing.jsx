@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from "@chakra-ui/core";
 import Project from 'components/listing/project';
-import wpcomFactory from 'wpcom';
-import wpcomOAuthFactory from 'wpcom-oauth-cors';
-
-const clientID = 68924,
-		wpcomOAuth = wpcomOAuthFactory( clientID );
+import { auth, wpcom } from 'components/authorize';
 
 /**
 * A set of explicitly supported components for exercises.
@@ -31,44 +27,25 @@ class ProjectListing extends Component {
 
 
 	/**
-	* Handles authorization.
+	* Get the posts by tag.
 	*/
 
 	async componentDidMount() {
 		this.setState({ isLoading: true });
 
-		wpcomOAuth.get( ( auth ) => {
-			const wpcom = wpcomFactory( auth.access_token );
-
-			/*wpcom.req.get('/read/tags/BUcomlearnsdesign/posts?type=jetpack-portfolio' )
-				.then( ( data ) => {
-					this.setState( {
-						posts: data
-					} );
-					console.log(data);
-				} ).catch( ( error ) => {
-					console.warn( error );
-					this.setState( {
-						isLoading: false,
-						posts: false
-					} );
+		wpcom.req.get(`/read/tags/${this.props.tag}/posts?number=40` )
+			.then( ( data ) => {
+				this.setState( {
+					isLoading: false,
+					data: data
 				} );
-				*/
-
-			wpcom.req.get(`/read/tags/${this.props.tag}/posts?number=40` )
-				.then( ( data ) => {
-					this.setState( {
-						isLoading: false,
-						data: data
-					} );
-				} ).catch( ( error ) => {
-					console.warn( error );
-					this.setState( {
-						isLoading: false,
-						data: false
-					} );
+			} ).catch( ( error ) => {
+				console.warn( error );
+				this.setState( {
+					isLoading: false,
+					data: false
 				} );
-		} );
+			} );
 	}
 
 	render() {
@@ -80,9 +57,9 @@ class ProjectListing extends Component {
 
 		return (
 			<Grid templateColumns="repeat(5, 1fr)" gap={6} p={100}>
-			{thedata.map((post, index) =>
-				<Project data={post} key={index.toString()} />
-			)}
+				{thedata.map((post, index) =>
+					<Project data={post} key={index.toString()} />
+				)}
 			</Grid>
 		)
 	}
