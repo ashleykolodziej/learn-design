@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Grid, Box, Heading, Link, Button } from "@chakra-ui/core";
-import { Banner, Card } from 'components/ui/ui';
+import React, { Component } from 'react';
+import { Grid } from "@chakra-ui/core";
 import Project from 'components/listing/project';
 import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';

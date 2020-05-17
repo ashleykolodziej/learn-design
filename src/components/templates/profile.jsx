@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Flex, Box, Heading, Link, Button } from "@chakra-ui/core";
+import { Flex, Box, Heading, Link } from "@chakra-ui/core";
 import { Banner, Card } from 'components/ui/ui';
 import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';

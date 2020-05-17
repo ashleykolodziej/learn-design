@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Flex, Box, Badge, Heading, Link, Button, IconButton } from "@chakra-ui/core";
-import { Banner, Card } from 'components/ui/ui';
+import { Flex, Box, Badge, Heading, Button, IconButton } from "@chakra-ui/core";
+import { Card } from 'components/ui/ui';
 import { RiHeartLine, RiChatSmile3Line } from "react-icons/ri";
 
 /**
@@ -15,9 +15,6 @@ import { RiHeartLine, RiChatSmile3Line } from "react-icons/ri";
 */
 
 class Project extends Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		//console.log(this.props.data);

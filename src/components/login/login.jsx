@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from "@chakra-ui/core";
-import wpcomFactory from 'wpcom';
+//import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';
 
 const clientID = 68924,
@@ -8,9 +8,6 @@ const clientID = 68924,
 
 
 class LoginButton extends Component {
-	constructor (props) {
-		super(props);
-	}
 
 	/**
 	* Handles authorization.
@@ -18,10 +15,10 @@ class LoginButton extends Component {
 
 	getAuthorization() {
 		wpcomOAuth.get(function(auth){
-			const wpcom = wpcomFactory( auth.access_token );
+			//const wpcom = wpcomFactory( auth.access_token );
 
-			const siteID = auth.site_id;
-			const site = wpcom.site( siteID );
+			//const siteID = auth.site_id;
+			//const site = wpcom.site( siteID );
 
 			// Post type is jetpack-portfolio
 			// https://public-api.wordpress.com/rest/v1.2/sites/lldtestsite.wordpress.com/posts?type=jetpack-portfolio

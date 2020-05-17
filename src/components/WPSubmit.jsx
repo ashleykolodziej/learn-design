@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Button } from "@chakra-ui/core";
+import { Button } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
 
 /**
@@ -22,14 +22,9 @@ class WPSubmit extends Component {
 		};
 	}
 
-	componentDidMount() {
-		console.log(auth);
-		console.log(wpcom);
-	}
-
 	/**
 	* Handles authorization.
-
+	*/
 
 	submit = () => {
 		const siteID = auth.site_id;
@@ -52,13 +47,11 @@ class WPSubmit extends Component {
 		});
 	}
 
-	*/
-
 	render() {
 		//if ( this.state.isLoading ) return null;
 
 		return (
-			<Button variantColor="green" >
+			<Button variantColor="green" onClick={ this.submit }>
 				Submit
 			</Button>
 		);
