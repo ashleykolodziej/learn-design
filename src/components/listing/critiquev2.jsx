@@ -7,7 +7,7 @@ import { Grid, Box, Badge, Heading, Link, Button, IconButton, FormControl, Icon,
   SliderFilledTrack,
   SliderThumb } from "@chakra-ui/core";
 import { Banner, Card } from 'components/ui/ui';
-import { RiBarChartGroupedLine, RiFile2Line, RiSearchLine, RiTodoLine, RiPaletteLine, RiPaintBrushLine, RiArtboard2Line, RiMarkupLine, RiFocus2Line, RiInputMethodLine, RiCheckboxLine, RiCharacterRecognitionLine, RiMagicLine, RiLightbulbLine } from "react-icons/ri";
+import { RiVipDiamondLine, RiBarChartGroupedLine, RiFile2Line, RiSearchLine, RiTodoLine, RiPaletteLine, RiPaintBrushLine, RiArtboard2Line, RiMarkupLine, RiFocus2Line, RiInputMethodLine, RiCheckboxLine, RiCharacterRecognitionLine, RiMagicLine, RiLightbulbLine } from "react-icons/ri";
 
 /**
 * A set of explicitly supported components for exercises.
@@ -198,7 +198,21 @@ class CritiqueForm extends Component {
 						</FormControl>
 
 						<FormControl>
-							<FormLabel htmlFor="comments">Level of work relative to class</FormLabel>
+							<FormLabel htmlFor="comments">Usage and quality of resources</FormLabel>
+							<Slider defaultValue={50}>
+						  <SliderTrack bg="red.100" />
+						  <SliderFilledTrack bg="tomato" />
+						  <SliderThumb size={6}>
+						    <Box color="tomato" as={RiVipDiamondLine} />
+						  </SliderThumb>
+						</Slider>
+							<FormHelperText id="email-helper-text">
+								We'll never share your email.
+							</FormHelperText>
+						</FormControl>
+
+						<FormControl>
+							<FormLabel htmlFor="comments">Quality relative to peers</FormLabel>
 							<Slider defaultValue={50}>
 						  <SliderTrack bg="red.100" />
 						  <SliderFilledTrack bg="tomato" />
