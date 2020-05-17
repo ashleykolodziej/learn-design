@@ -19,10 +19,10 @@ function LoadButton( { isLoading, children, ...props } ) {
 	const ref = React.useRef( null );
 
 	useEffect( () => {
-		if (ref.current && ref.current.getBoundingClientRect().width) {
+		if ( ref.current && ref.current.getBoundingClientRect().width ) {
 			setWidth( ref.current.getBoundingClientRect().width );
 		}
-		if (ref.current && ref.current.getBoundingClientRect().height) {
+		if ( ref.current && ref.current.getBoundingClientRect().height ) {
 			setHeight( ref.current.getBoundingClientRect().height );
 		}
 	},

@@ -33,7 +33,7 @@ class ProjectListing extends Component {
 	async componentDidMount() {
 		this.setState({ isLoading: true });
 
-		wpcom.req.get(`/read/tags/${this.props.tag}/posts?number=40` )
+		wpcom.req.get( `/read/tags/${this.props.tag}/posts?number=40` )
 			.then( ( data ) => {
 				this.setState( {
 					isLoading: false,

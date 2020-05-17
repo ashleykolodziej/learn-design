@@ -7,7 +7,7 @@ import { Grid, Box, Badge, Heading, Link, Button, IconButton, FormControl, Icon,
   SliderFilledTrack,
   SliderThumb } from "@chakra-ui/core";
 import { Banner, Card } from 'components/ui/ui';
-import { RiPaletteLine, RiPaintBrushLine, RiArtboard2Line, RiMarkupLine, RiFocus2Line, RiInputMethodLine, RiCheckboxLine, RiCharacterRecognitionLine, RiMagicLine, RiLightbulbLine } from "react-icons/ri";
+import { RiBarChartGroupedLine, RiFile2Line, RiSearchLine, RiTodoLine, RiPaletteLine, RiPaintBrushLine, RiArtboard2Line, RiMarkupLine, RiFocus2Line, RiInputMethodLine, RiCheckboxLine, RiCharacterRecognitionLine, RiMagicLine, RiLightbulbLine } from "react-icons/ri";
 
 /**
 * A set of explicitly supported components for exercises.
@@ -36,7 +36,7 @@ class CritiqueForm extends Component {
 				  <TabList>
 				    <Tab><Box color="tomato" as={RiPaletteLine} /> Design</Tab>
 				    <Tab><Box color="tomato" as={RiLightbulbLine} /> Concept</Tab>
-				    <Tab>Execution</Tab>
+				    <Tab><Box color="tomato" as={RiTodoLine} /> Execution</Tab>
 				  </TabList>
 
 				  <TabPanels>
@@ -98,7 +98,7 @@ class CritiqueForm extends Component {
 						</FormControl>
 				    </TabPanel>
 				    <TabPanel>
-				      				    	<FormControl>
+				      <FormControl>
 							<FormLabel htmlFor="comments">Overall concept</FormLabel>
 							<Slider defaultValue={50}>
 							  <SliderTrack bg="red.100" />
@@ -155,7 +155,61 @@ class CritiqueForm extends Component {
 						</FormControl>
 				    </TabPanel>
 				    <TabPanel>
-				      <p>three!</p>
+				      <FormControl>
+							<FormLabel htmlFor="comments">Overall execution</FormLabel>
+							<Slider defaultValue={50}>
+							  <SliderTrack bg="red.100" />
+							  <SliderFilledTrack bg="tomato" />
+							  <SliderThumb size={6}>
+							    <Box color="tomato" as={RiTodoLine} />
+							  </SliderThumb>
+							</Slider>
+							<FormHelperText id="email-helper-text">
+								Hint for overall concept
+							</FormHelperText>
+						</FormControl>
+
+						<FormControl>
+							<FormLabel htmlFor="comments">Attention to detail</FormLabel>
+							<Slider defaultValue={50}>
+						  <SliderTrack bg="red.100" />
+						  <SliderFilledTrack bg="tomato" />
+						  <SliderThumb size={6}>
+						    <Box color="tomato" as={RiSearchLine} />
+						  </SliderThumb>
+						</Slider>
+							<FormHelperText id="email-helper-text">
+								We'll never share your email.
+							</FormHelperText>
+						</FormControl>
+
+						<FormControl>
+							<FormLabel htmlFor="comments">Proper size/format</FormLabel>
+							<Slider defaultValue={50}>
+						  <SliderTrack bg="red.100" />
+						  <SliderFilledTrack bg="tomato" />
+						  <SliderThumb size={6}>
+						    <Box color="tomato" as={RiFile2Line} />
+						  </SliderThumb>
+						</Slider>
+							<FormHelperText id="email-helper-text">
+								We'll never share your email.
+							</FormHelperText>
+						</FormControl>
+
+						<FormControl>
+							<FormLabel htmlFor="comments">Level of work relative to class</FormLabel>
+							<Slider defaultValue={50}>
+						  <SliderTrack bg="red.100" />
+						  <SliderFilledTrack bg="tomato" />
+						  <SliderThumb size={6}>
+						    <Box color="tomato" as={RiBarChartGroupedLine} />
+						  </SliderThumb>
+						</Slider>
+							<FormHelperText id="email-helper-text">
+								We'll never share your email.
+							</FormHelperText>
+						</FormControl>
 				    </TabPanel>
 				  </TabPanels>
 				</Tabs>
