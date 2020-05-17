@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, useToast } from "@chakra-ui/core";
+import React, { useState, useEffect } from 'react';
+import { Button, useToast, Spinner } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
 
 /**
@@ -13,22 +13,65 @@ import { auth, wpcom } from 'components/authorize';
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-class WPSubmit extends Component {
-	constructor(props) {
-		super(props);
+function LoadButton( { isLoading, children, ...props } ) {
+	const [ width, setWidth ] = React.useState( 0 );
+	const [ height, setHeight ] = React.useState( 0 );
+	const ref = React.useRef( null );
 
-		this.state = {
-			isLoading: false
-		};
+	useEffect( () => {
+		if (ref.current && ref.current.getBoundingClientRect().width) {
+			setWidth( ref.current.getBoundingClientRect().width );
+		}
+		if (ref.current && ref.current.getBoundingClientRect().height) {
+			setHeight( ref.current.getBoundingClientRect().height );
+		}
+	},
+		[children]
+	);
+
+	return (
+		<Button ref={ref} style={
+        width && height
+          ? {
+              width: `${width}px`,
+              height: `${height}px`,
+            }
+          : {}
+      } {...props}>
+			{isLoading ? <Spinner /> : children}
+		</Button>
+	);
+}
+
+function WPSubmit() {
+	const [ isUploading, setIsUploading ] = useState( false );
+	const toast = useToast();
+
+	function ShowLoading() {
+		console.log( this.getState() );
+
+		if ( isUploading ) {
+			return <Spinner />;
+		}
+
+		return;
 	}
 
 	/**
 	* Handles authorization.
 	*/
 
-	submit = () => {
+	async function submit() {
 		const siteID = auth.site_id;
 		const site = wpcom.site( siteID );
+		const post = {
+			title: 'Testing project auth w/promise',
+			tags: [
+				'bucomlearnsdesign'
+			]
+		}
+
+		setIsUploading( true );
 
 		// Post type is jetpack-portfolio
 		// But this won't let us use feeds, so we'll use normal posts.
@@ -36,39 +79,38 @@ class WPSubmit extends Component {
 
 		// Free image compression API here: http://resmush.it/
 
-		site.addPost( {
-			title: 'Testing project auth w/promise',
-			tags: [
-				'bucomlearnsdesign'
-			]
-		})
-		.then( ( data ) => {
+      const result = await site.addPost( post ).then( ( data ) => {
 			console.log("Success");
 			console.log(data);
-			// This does not work but I don't understand how to fix it.
-			/*toast({
+
+			toast({
 				title: "Posted!",
-				description: `We've created your account for you. Check out your new project at ${data.url}.`,
+				description: `We've created your account for you. Check out your new project at ${data.URL}.`,
 				status: "success",
 				duration: 9000,
 				isClosable: true,
-			});*/
-		} )
-		.catch( (err, post) => {
+			});
+		} ).catch( (err, post) => {
 			console.log(err);
 			console.log(post);
+
+			toast({
+				title: "Something went wrong",
+				description: `Error: ${err}.`,
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+			});
 		} );
+
+		setIsUploading( false );
 	}
 
-	render() {
-		//if ( this.state.isLoading ) return null;
-
-		return (
-			<Button variantColor="green" onClick={ this.submit }>
-				Submit
-			</Button>
-		);
-	}
+	return (
+		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
+			Submit
+		</LoadButton>
+	);
 }
 
 export default WPSubmit;
