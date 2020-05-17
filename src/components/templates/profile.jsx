@@ -1,11 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Flex, Box, Heading, Link } from "@chakra-ui/core";
 import { Banner, Card } from 'components/ui/ui';
-import wpcomFactory from 'wpcom';
-import wpcomOAuthFactory from 'wpcom-oauth-cors';
-
-const clientID = 68924,
-		wpcomOAuth = wpcomOAuthFactory( clientID );
+import { auth, wpcom } from 'components/authorize';
 
 /**
 * A set of explicitly supported components for exercises.
@@ -37,12 +33,10 @@ class Profile extends Component {
 	async componentDidMount() {
 		this.setState({ isLoading: true });
 
-		wpcomOAuth.get( ( auth ) => {
-			const wpcom = wpcomFactory( auth.access_token ),
-					user = wpcom.me(),
-					site = wpcom.site( auth.site_id );
+		const user = wpcom.me(),
+				site = wpcom.site( auth.site_id );
 
-			user.get().then( ( data ) => {
+		user.get().then( ( data ) => {
 				this.setState( {
 					userInfo: data
 				} );
@@ -55,17 +49,16 @@ class Profile extends Component {
 				} );
 			} );
 
-			site.get().then( ( data ) => {
-				this.setState( {
-					isLoading: false,
-					siteInfo: data
-				} );
-				console.log(data);
-			} ).catch( ( error ) => {
-				console.warn( error );
-				this.setState( {
-					siteInfo: false
-				} );
+		site.get().then( ( data ) => {
+			this.setState( {
+				isLoading: false,
+				siteInfo: data
+			} );
+			console.log(data);
+		} ).catch( ( error ) => {
+			console.warn( error );
+			this.setState( {
+				siteInfo: false
 			} );
 		} );
 	}
