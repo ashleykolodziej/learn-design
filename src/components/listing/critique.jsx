@@ -15,7 +15,9 @@ import {
 	Slider,
 	SliderTrack,
 	SliderFilledTrack,
-	SliderThumb } from "@chakra-ui/core";
+	SliderThumb,
+	Tag,
+	TagLabel } from "@chakra-ui/core";
 import {
 	RiVipDiamondLine,
 	RiBarChartGroupedLine,
@@ -52,22 +54,27 @@ const rubric = [
 			{
 				name: "Overall design",
 				icon: RiPaletteLine,
-				info: "Hint for overall design"
+				info: "How does this work attempt to use the elements of design to communicate? Do the design decisions add to the communication? Are there any distracting elements that could be modified or removed and still create an effective communication?"
 			},
 			{
 				name: "Color",
 				icon: RiPaintBrushLine,
-				info: "Hint for color"
+				info: "What colors are being used in this design? Do they remind you of anything? How do they contribute to the overall message of the work?"
 			},
 			{
 				name: "Layout",
 				icon: RiArtboard2Line,
-				info: "Hint for layout"
+				info: "How does this work make use of the space on the page? Is it intentional? Does it draw your eye around the page effectively?"
 			},
 			{
-				name: "Typography",
+				name: "Readability",
 				icon: RiCharacterRecognitionLine,
-				info: "Hint for typography"
+				info: "Examine kerning, leading, and hierarchy. Is it pleasant to read?"
+			},
+			{
+				name: "Creative Typography",
+				icon: RiCharacterRecognitionLine,
+				info: "Examine artistic decisions: typeface choice, placement, and modification of type. Do the characteristics of the type align with the intended message? How does placement and modification of type add to this work, if it is present?"
 			}
 		]
 	},
@@ -78,22 +85,22 @@ const rubric = [
 			{
 				name: "Overall concept",
 				icon: RiLightbulbLine,
-				info: "Hint"
+				info: "What is this work trying to communicate? Is it communicating the message effectively?"
 			},
 			{
-				name: "Achieves project goals",
+				name: "Achieves goals",
 				icon: RiCheckboxLine,
-				info: "Hint"
+				info: "What is the goal of this work? Has it been achieved? Are there more effective ways to achieve this goal from a visual or conceptual standpoint?"
 			},
 			{
 				name: "Uniqueness",
 				icon: RiMagicLine,
-				info: "Hint"
+				info: "Have you seen this idea before? Is it new and innovative? Is it what you would expect, or did it make you think and surprise you?"
 			},
 			{
 				name: "Appropriate for audience",
 				icon: RiFocus2Line,
-				info: "Hint"
+				info: "Who is this work meant for? Does it address their needs and concerns, or appeal to them?"
 			}
 		]
 	},
@@ -104,27 +111,27 @@ const rubric = [
 			{
 				name: "Overall execution",
 				icon: RiTodoLine,
-				info: "Hint"
+				info: "Are all included elements contributing towards the intended message? Is anything present detracting or distracting from this message? Is anything missing?"
 			},
 			{
 				name: "Attention to detail",
 				icon: RiSearchLine,
-				info: "Hint"
+				info: "Are all elements neat and tidy? Examine spacing, leading, kerning, connecting lines, and smoothness of curves. Does it feel harmonious? Is it readable, or tight?"
 			},
 			{
-				name: "Proper size/format",
+				name: "Format",
 				icon: RiFile2Line,
-				info: "Hint"
+				info: "Is this work sized and formatted properly? Does this work maximize the potential of the format it works in? Does the chosen format make sense for the message?"
 			},
 			{
 				name: "Usage and quality of resources",
 				icon: RiVipDiamondLine,
-				info: "Hint"
+				info: "Are all included elements contributing towards the intended message? Is anything detracting or distracting from this message?"
 			},
 			{
-				name: "Quality relative to peers",
+				name: "Quality relative to similar works",
 				icon: RiBarChartGroupedLine,
-				info: "Hint"
+				info: "Consider other works you've seen in this category. How does this work compare? Does it stand out? Is there room to grow?"
 			}
 		]
 	},
@@ -166,7 +173,10 @@ function CritiqueForm() {
 
 		return (
 			<FormControl key={i}>
-				<FormLabel htmlFor="comments">{point.name}: {key[value - 1].name}</FormLabel>
+				<FormLabel htmlFor="comments">{point.name}</FormLabel>
+				<Tag variantColor="cyan" rounded="full" size={"sm"} float="right">
+					<TagLabel>{key[value - 1].name}</TagLabel>
+				</Tag>
 				<Slider defaultValue={props.defaultValue} min={1} max={5} onChange={updateText}>
 				  <SliderTrack bg="red.100" />
 				  <SliderFilledTrack bg="tomato" />
