@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
 import LoginButton from "./login/login";
 import Home from "./templates/home";
@@ -32,35 +32,23 @@ const MenuItems = ({ children }) => (
   </Text>
 );
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
+/**
+* Creates a React element based on an explicitly supported list of components
+* for this type of component. See Supported above.
+*/
 
-    this.state = {
-      isLoading: false
-    };
-  }
+const createElement = ( component, props = component.props ) => {
+  return( React.createElement(
+    Supported[component],
+    props
+  ) );
+}
 
-  /**
-  * Creates a React element based on an explicitly supported list of components
-  * for this type of component. See Supported above.
-  */
+function Header( props ) {
+  const [show, setShow] = useState( false );
+  const { colorMode, toggleColorMode } = useColorMode( "light" );
 
-  createElement = ( component, props = component.props ) => {
-    return( React.createElement(
-      Supported[component],
-      props
-    ) );
-  }
-
-  setShow = () => useState(false);
-  toggleColorMode = () => useColorMode();
-  handleToggle = () => this.setShow(!this.show);
-
-  render() {
-    if ( this.state.isLoading ) return null;
-
-    return (
+      return (
           <Router>
     <Flex
       as="nav"
@@ -70,7 +58,7 @@ class Header extends Component {
       padding="1.5rem"
       bg="teal.500"
       color="white"
-      {...this.props}
+      {...props}
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg">
@@ -108,8 +96,8 @@ class Header extends Component {
         mt={{ base: 4, md: 0 }}
       >
         <LoginButton />
-        <Button bg="transparent" border="1px" onClick={this.toggleColorMode}>
-          Toggle {this.colorMode === "light" ? "Dark" : "Light"}
+        <Button bg="transparent" border="1px" onClick={toggleColorMode}>
+          Toggle {colorMode === "light" ? "Dark" : "Light"}
         </Button>
       </Box>
     </Flex>
@@ -119,13 +107,12 @@ class Header extends Component {
       </Route>
       {data.pages.map((page, index) =>
         <Route key={index.toString()} exact path={ "/" + page.name}>
-          { this.createElement( page.template ) }
+          { createElement( page.template ) }
         </Route>
       )}
     </Switch>
     </Router>
     );
-  }
 }
 
 export default Header;
