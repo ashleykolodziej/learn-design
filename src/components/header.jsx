@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
 import LoginButton from "./login/login";
 import Home from "./templates/home";
@@ -45,7 +45,6 @@ const createElement = ( component, props = component.props ) => {
 }
 
 function Header( props ) {
-  const [show, setShow] = useState( false );
   const { colorMode, toggleColorMode } = useColorMode( "light" );
 
       return (
