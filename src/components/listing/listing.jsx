@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Grid, Skeleton } from "@chakra-ui/core";
 import Project from 'components/listing/project';
 import { wpcom } from 'components/authorize';
@@ -21,15 +21,24 @@ function ProjectListing( props ) {
 	/**
 	* Get the posts by tag.
 	*/
-	wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
-		.then( ( data ) => {
-			setData( data );
-			setIsLoading( false );
-		} ).catch( ( error ) => {
-			console.warn( error );
-			setData( null );
-			setIsLoading( false );
-		} );
+
+	useEffect(() => {
+		const fetchData = () => {
+			console.log("running");
+			wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
+				.then( ( data ) => {
+					setData( data );
+					setIsLoading( false );
+				} ).catch( ( error ) => {
+					console.warn( error );
+					setData( null );
+					setIsLoading( false );
+					return;
+				} );
+		};
+
+		fetchData();
+	}, [props.tag]);
 
 	return (
 		<Grid templateColumns="repeat(5, 1fr)" gap={6} p={100}>

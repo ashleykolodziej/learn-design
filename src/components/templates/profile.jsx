@@ -14,39 +14,39 @@ import { auth, wpcom } from 'components/authorize';
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
+function UserCard( { isLoading, children, ...props } ) {
+	return (
+		<>
+			{isLoading ? <Skeleton height="280px" /> :
+				<><Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px" width={75}>
+					<img src={props.data.avatar_URL} alt={props.data.display_name} />
+				</Box>
+				<Heading as="h2" size="md">Hi, {props.data.display_name}!</Heading></>
+			}
+		</>
+	);
+}
+
+function SiteCard( { isLoading, children, ...props } ) {
+	return (
+		<>
+			{isLoading ? <Skeleton height="280px" /> :
+				<><Heading as="h3" size="md">Connected portfolios: </Heading>
+			<Card mt={0} ml={5} mb={0} p={5} shadow="sm">
+				<Heading as="h4" size="sm">{props.data.name}</Heading>
+				<Link href={props.data.URL} isExternal color="blue.700">Visit site</Link> |
+				<Link href={props.data.options.admin_url} isExternal color="blue.700"> Site settings</Link>
+			</Card></>
+			}
+		</>
+	);
+}
+
 function Profile() {
 	const [ userIsLoading, setUserIsLoading ] = useState( true );
 	const [ siteIsLoading, setSiteIsLoading ] = useState( true );
 	const [ userInfo, setUserInfo ] = useState( null );
 	const [ siteInfo, setSiteInfo ] = useState( null );
-
-	function UserCard( { isLoading, children, ...props } ) {
-		return (
-			<>
-				{isLoading ? <Skeleton height="280px" /> :
-					<><Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px" width={75}>
-						<img src={userInfo.avatar_URL} alt={userInfo.display_name} />
-					</Box>
-					<Heading as="h2" size="md">Hi, {userInfo.display_name}!</Heading></>
-				}
-			</>
-		);
-	}
-
-	function SiteCard( { isLoading, children, ...props } ) {
-		return (
-			<>
-				{isLoading ? <Skeleton height="280px" /> :
-					<><Heading as="h3" size="md">Connected portfolios: </Heading>
-				<Card mt={0} ml={5} mb={0} p={5} shadow="sm">
-					<Heading as="h4" size="sm">{siteInfo.name}</Heading>
-					<Link href={siteInfo.URL} isExternal color="blue.700">Visit site</Link> |
-					<Link href={siteInfo.options.admin_url} isExternal color="blue.700"> Site settings</Link>
-				</Card></>
-				}
-			</>
-		);
-	}
 
 	/**
 	* Handles authorization.
@@ -87,10 +87,10 @@ function Profile() {
 		</Banner>
 		<Flex pt={5} pb={5} pl={100} pr={100}>
 			<Flex alignItems="center">
-				<UserCard isLoading={userIsLoading} />
+				<UserCard isLoading={userIsLoading} data={userInfo} />
 			</Flex>
 			<Flex align="center" ml="auto" mr={0}>
-				<SiteCard isLoading={siteIsLoading} />
+				<SiteCard isLoading={siteIsLoading} data={siteInfo} />
 			</Flex>
 		</Flex>
 		</Fragment>

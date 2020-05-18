@@ -160,58 +160,57 @@ const key = [
 	}
 ];
 
+function Tabby( props ) {
+	const point = props.point;
+
+	const [value, setValue] = useState( props.defaultValue );
+
+	function updateText( data ) {
+		setValue( data );
+	}
+
+	return (
+		<FormControl mb={5}>
+			<FormLabel htmlFor="comments">{point.name}</FormLabel>
+			<Tag variantColor="cyan" rounded="full" size={"sm"} float="right">
+				<TagLabel>{key[value].name}</TagLabel>
+			</Tag>
+			<Slider defaultValue={props.defaultValue} min={0} max={4} onChange={updateText}>
+			  <SliderTrack bg="red.100" />
+			  <SliderFilledTrack bg="tomato" />
+			  <SliderThumb size={6}>
+			    <Box color="tomato" as={point.icon} />
+			  </SliderThumb>
+			</Slider>
+			<FormHelperText id="email-helper-text">
+				{point.info}
+			</FormHelperText>
+		</FormControl>
+	);
+}
+
+function DataTabs({ data }) {
+	return (
+		<Tabs variant="enclosed" isFitted mt="5">
+			<TabList>
+				{data.map((tab, index) => (
+				<Tab key={index}><Box color="tomato" as={tab.icon} mr="5px" /> {tab.group}</Tab>
+				))}
+			</TabList>
+			<TabPanels p="5" border="1px" borderColor="gray.200">
+				{data.map((tab, index) => (
+					<TabPanel key={index}>
+						{tab.items.map((point, i) => (
+							<Tabby point={point} key={i} defaultValue={1} />
+						))}
+					</TabPanel>
+				))}
+			</TabPanels>
+		</Tabs>
+	);
+}
+
 function CritiqueForm() {
-	function Tabby( props ) {
-		const point = props.point,
-				i = props.key;
-
-		const [value, setValue] = useState( props.defaultValue );
-
-		function updateText( data ) {
-			setValue( data );
-		}
-
-		return (
-			<FormControl key={i} mb={5}>
-				<FormLabel htmlFor="comments">{point.name}</FormLabel>
-				<Tag variantColor="cyan" rounded="full" size={"sm"} float="right">
-					<TagLabel>{key[value - 1].name}</TagLabel>
-				</Tag>
-				<Slider defaultValue={props.defaultValue} min={1} max={5} onChange={updateText}>
-				  <SliderTrack bg="red.100" />
-				  <SliderFilledTrack bg="tomato" />
-				  <SliderThumb size={6}>
-				    <Box color="tomato" as={point.icon} />
-				  </SliderThumb>
-				</Slider>
-				<FormHelperText id="email-helper-text">
-					{point.info}
-				</FormHelperText>
-			</FormControl>
-		);
-	}
-
-	function DataTabs({ data }) {
-		return (
-			<Tabs variant="enclosed" isFitted mt="5">
-				<TabList>
-					{data.map((tab, index) => (
-					<Tab key={index}><Box color="tomato" as={tab.icon} mr="5px" /> {tab.group}</Tab>
-					))}
-				</TabList>
-				<TabPanels p="5" border="1px" borderColor="gray.200">
-					{data.map((tab, index) => (
-						<TabPanel key={index}>
-							{tab.items.map((point, i) => (
-								<Tabby point={point} key={i} defaultValue={1} />
-							))}
-						</TabPanel>
-					))}
-				</TabPanels>
-			</Tabs>
-		);
-	}
-
 	return (
 		<Grid templateColumns="repeat(4, 1fr)" gridGap={10}>
 			<Box gridColumn="span 2" bg='gray.100'>
