@@ -132,19 +132,24 @@ const rubric = [
 
 const key = [
 	{
-		name: "Needs rework"
+		name: "Seed",
+		description: "In the seed stage, an idea or tactic is present, but it is too early to tell if it is viable. Nurture it, but don't be afraid to rapidly explore other seeds at this stage."
 	},
 	{
-		name: "Below average"
+		name: "Seedling 🌱",
+		description: "Something is developing, but it's not clear exactly what it is yet."
 	},
 	{
-		name: "Average"
+		name: "Blooming 🌿",
+		description: "Your little seedling is taking off. You can identify what it is, but it isn't fruitful yet. You're almost there!"
 	},
 	{
-		name: "Above average"
+		name: "Fruitful 🍅",
+		description: "Success! You're reaping the benefits of your hard work. But is it the best it could be?"
 	},
 	{
-		name: "On fire!"
+		name: "Harvest ☀️",
+		description: "Your friends are totally jealous of your tomatoes."
 	}
 ];
 
@@ -188,7 +193,7 @@ function CritiqueForm() {
 					{data.map((tab, index) => (
 						<TabPanel key={index}>
 							{tab.items.map((point, i) => (
-								<Tabby point={point} key={i} defaultValue={3} />
+								<Tabby point={point} key={i} defaultValue={1} />
 							))}
 						</TabPanel>
 					))}
@@ -202,13 +207,13 @@ function CritiqueForm() {
 			<Box gridColumn="span 2" bg='gray.100'>
 			</Box>
 			<Box gridColumn="span 2">
-				<Heading as="h3" size="md"><Box as={RiMarkupLine} float="left" size="8" mt="-4px" mr="5px" />Assess this design</Heading>
+				<Heading as="h3" size="md"><Box as={RiMarkupLine} float="left" size="8" mt="-4px" mr="5px" />What stage is this design at right now?</Heading>
 				<FormHelperText id="email-helper-text" mb={10}>
-					Critique helps us improve our work collectively.
+					Critique helps us improve our work collectively, and assessing where we are helps us grow further together.
 				</FormHelperText>
 				<DataTabs data={rubric} />
 				<FormControl mt={10} mb={10}>
-					<FormLabel htmlFor="comments" mb="5px">How could this design be improved?</FormLabel>
+					<FormLabel htmlFor="comments" mb="5px">How can this design grow further?</FormLabel>
 					<Textarea placeholder="Here is a sample placeholder" />
 					<FormHelperText id="email-helper-text">
 						Hints

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Grid } from "@chakra-ui/core";
+import React, { Fragment, useState } from 'react';
+import { Grid, Skeleton } from "@chakra-ui/core";
 import Project from 'components/listing/project';
 import { wpcom } from 'components/authorize';
 
@@ -14,55 +14,40 @@ import { wpcom } from 'components/authorize';
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-class ProjectListing extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			isLoading: true,
-			userInfo: "Test name"
-		};
-	}
-
-
+function ProjectListing( props ) {
+	const [ isLoading, setIsLoading ] = useState( true );
+	const [ data, setData ] = useState( null );
 
 	/**
 	* Get the posts by tag.
 	*/
+	wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
+		.then( ( data ) => {
+			setData( data );
+			setIsLoading( false );
+		} ).catch( ( error ) => {
+			console.warn( error );
+			setData( null );
+			setIsLoading( false );
+		} );
 
-	async componentDidMount() {
-		this.setState({ isLoading: true });
-
-		wpcom.req.get( `/read/tags/${this.props.tag}/posts?number=40` )
-			.then( ( data ) => {
-				this.setState( {
-					isLoading: false,
-					data: data
-				} );
-			} ).catch( ( error ) => {
-				console.warn( error );
-				this.setState( {
-					isLoading: false,
-					data: false
-				} );
-			} );
-	}
-
-	render() {
-		if ( this.state.isLoading ) return null;
-
-		const thedata = this.state.data.posts;
-
-		console.log(thedata);
-
-		return (
-			<Grid templateColumns="repeat(5, 1fr)" gap={6} p={100}>
-				{thedata.map((post, index) =>
-					<Project data={post} key={index.toString()} />
-				)}
-			</Grid>
-		)
-	}
+	return (
+		<Grid templateColumns="repeat(5, 1fr)" gap={6} p={100}>
+			{isLoading ?
+				<Fragment>
+					<Skeleton height="300px" />
+					<Skeleton height="300px" />
+					<Skeleton height="300px" />
+					<Skeleton height="300px" />
+					<Skeleton height="300px" />
+				</Fragment>
+				:
+				data.posts.map((post, index) =>
+					<Project data={post} key={index.toString()} loading={isLoading} />
+				)
+			}
+		</Grid>
+	)
 }
 
 export default ProjectListing;
