@@ -172,7 +172,7 @@ function CritiqueForm() {
 		}
 
 		return (
-			<FormControl key={i}>
+			<FormControl key={i} mb={5}>
 				<FormLabel htmlFor="comments">{point.name}</FormLabel>
 				<Tag variantColor="cyan" rounded="full" size={"sm"} float="right">
 					<TagLabel>{key[value - 1].name}</TagLabel>
@@ -229,7 +229,7 @@ function CritiqueForm() {
 						Hints
 					</FormHelperText>
 				</FormControl>
-				<WPSubmit text="Submit Critique" />
+				<WPSubmit text="Submit Feedback" />
 			</Box>
 		</Grid>
 	);
