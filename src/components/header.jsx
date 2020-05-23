@@ -6,6 +6,9 @@ import Profile from "./templates/profile";
 import Docs from "./templates/docs";
 import Examples from "./templates/examples";
 import Blog from "./templates/blog";
+import Critique from "./templates/critique";
+import Inspiration from "./templates/inspiration";
+import data from "../data/class/site.json";
 
 import {
   BrowserRouter as Router,
@@ -14,19 +17,38 @@ import {
   Link
 } from "react-router-dom";
 
+const Supported = {
+  Blog,
+  Critique,
+  Docs,
+  Examples,
+  Inspiration,
+  Profile
+};
+
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
     {children}
   </Text>
 );
 
-const Header = props => {
-  const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
-  const { colorMode, toggleColorMode } = useColorMode();
+/**
+* Creates a React element based on an explicitly supported list of components
+* for this type of component. See Supported above.
+*/
 
-  return (
-    <Router>
+const createElement = ( component, props = component.props ) => {
+  return( React.createElement(
+    Supported[component],
+    props
+  ) );
+}
+
+function Header( props ) {
+  const { colorMode, toggleColorMode } = useColorMode( "light" );
+
+      return (
+          <Router>
     <Flex
       as="nav"
       align="center"
@@ -39,11 +61,11 @@ const Header = props => {
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg">
-          <Link to="/">Learn Design</Link>
+          <Link to="/">{data.title}</Link>
         </Heading>
       </Flex>
 
-      <Box display={{ xs: "block", md: "none" }} onClick={handleToggle}>
+      <Box display={{ xs: "block", md: "none" }}>
         <svg
           fill="white"
           width="20px"
@@ -56,19 +78,20 @@ const Header = props => {
       </Box>
 
       <Box
-        display={{ xs: show ? "block" : "none", md: "flex" }}
+        display={{ xs: "block", md: "flex" }}
         width={{ xs: "full", md: "auto" }}
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems><Link to="/docs">Docs</Link></MenuItems>
-        <MenuItems><Link to="/examples">Examples</Link></MenuItems>
-        <MenuItems><Link to="/blog">Blog</Link></MenuItems>
-        <MenuItems><Link to="/profile">Profile</Link></MenuItems>
+        {data.pages.map((page, index) =>
+          <MenuItems key={index.toString()}>
+            <Link to={ "/" + page.name}>{page.template}</Link>
+          </MenuItems>
+        )}
       </Box>
 
       <Box
-        display={{ xs: show ? "block" : "none", md: "block" }}
+        display={{ xs: "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
         <LoginButton />
@@ -81,21 +104,14 @@ const Header = props => {
       <Route exact path="/">
         <Home />
       </Route>
-      <Route exact path="/docs">
-        <Docs />
-      </Route>
-      <Route path="/examples">
-        <Examples />
-      </Route>
-      <Route path="/blog">
-        <Blog />
-      </Route>
-      <Route path="/profile">
-        <Profile />
-      </Route>
+      {data.pages.map((page, index) =>
+        <Route key={index.toString()} exact path={ "/" + page.name}>
+          { createElement( page.template ) }
+        </Route>
+      )}
     </Switch>
     </Router>
-  );
-};
+    );
+}
 
 export default Header;
