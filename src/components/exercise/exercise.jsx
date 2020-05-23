@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Heading, Text } from "@chakra-ui/core";
+import { Box, Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
 import { Supported, createElement } from 'components/dynamicElements';
 
@@ -39,6 +39,8 @@ class Exercise extends Component {
 		}
 	}
 
+	createMarkup = htmlString => ({ __html: htmlString });
+
 	render() {
 		if ( this.state.isLoading ) return null;
 
@@ -46,9 +48,11 @@ class Exercise extends Component {
 			<Fragment>
 				<Card textAlign="right">
 					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
-					<Text fontSize="lg" textAlign="left">{exercise.directions}</Text>
+					<Text fontSize="lg" textAlign="left" dangerouslySetInnerHTML={this.createMarkup(exercise.directions)} />
 					{ components.map( ( component ) =>
-						createElement( component )
+						<Box mb={10}>
+						{ createElement( component ) }
+						</Box>
 					) }
 				</Card>
 			</Fragment>

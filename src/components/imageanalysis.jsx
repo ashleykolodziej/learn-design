@@ -1,9 +1,22 @@
 import React from 'react';
-import Upload from 'components/upload/upload';
+import Upload from 'components/upload/upload-ui';
 import Prompt from './prompt';
 import { Grid, Box } from "@chakra-ui/core";
 
-function ImageAnalysis( props ) {
+function Compare( props ) {
+	return (
+		<Grid templateColumns="repeat(2, 1fr)" gridGap={10}>
+			{ props.prompts.map( ( prompt, index ) =>
+				<Box textAlign="left">
+					<Upload hintText={ prompt.uploadHint } />
+					<Prompt data={prompt} key={index.toString()} />
+				</Box>
+			) }
+		</Grid>
+	);
+}
+
+function Examine( props ) {
 	return (
 		<Grid templateColumns="repeat(2, 1fr)" gridGap={10}>
 			<Upload />
@@ -14,6 +27,24 @@ function ImageAnalysis( props ) {
 			</Box>
 		</Grid>
 	);
+}
+
+function ImageAnalysis( props ) {
+	return (
+		<>
+		{ props.type === 'compare' &&
+			<Compare {...props} />
+		}
+
+		{ props.type === 'examine' &&
+			<Examine {...props} />
+		}
+		</>
+	);
+}
+
+ImageAnalysis.defaultProps = {
+	type: 'examine'
 }
 
 export default ImageAnalysis;

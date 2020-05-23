@@ -1,0 +1,29 @@
+{
+	"title": "Good Design, Bad Design",
+	"directions": "Choose two designs: one \"good\", one \"bad\". What makes a design good or bad? Explain your reasoning using the <abbr>Elements of Design<\/abbr>.",
+	"components": [
+		{
+			"type": "ImageAnalysis",
+			"props": {
+				"type": "compare",
+				"prompts": [
+					{
+						"prompt": "What makes this a \"good\" design?",
+						"response": {
+							"type": "Textarea"
+						},
+						"uploadHint": "Upload a \"good\" design here"
+					},
+					{
+						"prompt": "What makes this a \"bad\" design?",
+						"response": {
+							"type": "Textarea"
+						},
+						"uploadHint": "Upload a \"bad\" design here"
+					}
+				]
+			}
+		}
+	],
+	"validResponses": []
+}

@@ -7,6 +7,7 @@ const Examples = props => {
 		<Fragment>
 			<Banner pageTitle="Examples" />
 			<Page>
+				<Exercise name="good-design-bad-design" />
 				<Exercise name="sample-image-analysis" />
 				<Exercise name="sample-upload" />
 				<Exercise name="sample-multiple" />

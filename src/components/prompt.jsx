@@ -7,7 +7,7 @@ function Prompt( props ) {
 
 	return (
 		<Box mb={5}>
-			<Heading as="h3" size="md" mb={3}>{ prompt.prompt }</Heading>
+			<Heading as="h3" size="sm" mb={3}>{ prompt.prompt }</Heading>
 			{ createElement( prompt.response ) }
 		</Box>
 	);

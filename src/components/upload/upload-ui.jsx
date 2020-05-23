@@ -48,8 +48,6 @@ const thumb = {
 	border: '1px solid #eaeaea',
 	marginBottom: 8,
 	marginRight: 8,
-	width: 100,
-	height: 100,
 	padding: 4,
 	boxSizing: 'border-box',
 	cursor: 'pointer'
@@ -75,6 +73,7 @@ const imgName = {
 
 function Upload( props ) {
 	const [files, setFiles] = useState([]);
+	const [hintText, setHintText] = useState([]);
 	const {
 		acceptedFiles,
 		getRootProps,
@@ -84,23 +83,27 @@ function Upload( props ) {
 		isDragReject
 	} = useDropzone( {
 		accept: 'image/*',
+		multiple: false,
 		onDrop: acceptedFiles => {
 			setFiles(acceptedFiles.map(file => Object.assign(file, {
 				preview: URL.createObjectURL(file)
 			})));
+			setHintText( "Click or drag to upload a different image" );
 		}
 	} );
 
 	// From https://github.com/react-dropzone/react-dropzone/issues/805#issuecomment-481405924
 
 	const removeFile = file => () => {
-		const newFiles = [...files]
-		newFiles.splice( newFiles.indexOf( file ), 1 )
-		setFiles( newFiles )
+		const newFiles = [...files];
+		newFiles.splice( newFiles.indexOf( file ), 1 );
+		setFiles( newFiles );
+		setHintText( props.hintText );
 	}
 
 	const removeAll = () => {
 		setFiles([])
+		setHintText( props.hintText );
 	}
 
 	const thumbs = files.map(file => (
@@ -116,6 +119,10 @@ function Upload( props ) {
 			<div style={imgName}><strong style={{display: 'block'}}>{ file.name }</strong> {formatBytes( file.size ) }</div>
 		</div>
 	));
+
+	useEffect(() => {
+		setHintText( props.hintText );
+	}, []);
 
 	useEffect(() => () => {
 		// Make sure to revoke the data uris to avoid memory leaks
@@ -137,16 +144,11 @@ function Upload( props ) {
 		<section className="upload">
 			<div {...getRootProps( {style} ) }>
 				<input { ...getInputProps() } />
-				<p>{props.hintText}</p>
+				<p>{hintText}</p>
+				<Flex mt={5}>
+					{thumbs}
+				</Flex>
 			</div>
-			{ files.length > 0 &&
-				<aside style={thumbsContainer}>
-					<Heading as="h4" size="sm" mb={3}>Ready to upload:</Heading>
-					<Flex>
-						{thumbs}
-					</Flex>
-				</aside>
-			}
 		</section>
 	);
 }
