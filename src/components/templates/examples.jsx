@@ -9,8 +9,9 @@ const Examples = props => {
 			<Page>
 				<Exercise name="sample-image-analysis" />
 				<Exercise name="sample-upload" />
-				<Exercise />
+				<Exercise name="sample-multiple" />
 				<Exercise name="sample" />
+				<Exercise />
 			</Page>
 		</Fragment>
 	);

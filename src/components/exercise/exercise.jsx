@@ -6,7 +6,7 @@ import { Supported, createElement } from 'components/dynamicElements';
 import data from "./demo";
 
 let exercise = data;
-let component = exercise.component[0];
+let components = exercise.components;
 
 class Exercise extends Component {
 	constructor(props) {
@@ -30,7 +30,7 @@ class Exercise extends Component {
 			this.setState({ isLoading: true });
 			await import(`../../data/exercises/${exerciseName}.json`).then(value => {
 				exercise = value.default;
-				component = exercise.component[0];
+				components = exercise.components;
 				this.setState({ isLoading: false });
 			}, reason => {
 			  this.setState({ isLoading: false });
@@ -47,7 +47,9 @@ class Exercise extends Component {
 				<Card textAlign="right">
 					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
 					<Text fontSize="lg" textAlign="left">{exercise.directions}</Text>
-					{ createElement( component ) }
+					{ components.map( ( component ) =>
+						createElement( component )
+					) }
 				</Card>
 			</Fragment>
 		);

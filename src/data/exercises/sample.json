@@ -1,7 +1,7 @@
 {
 	"title": "An actual exercise",
 	"directions": "This demonstrates a (successfully!) called exercise.",
-	"component": [
+	"components": [
 		{
 			"type": "Kernable",
 			"props": {

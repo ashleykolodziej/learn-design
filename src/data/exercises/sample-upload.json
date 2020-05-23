@@ -1,7 +1,7 @@
 {
 	"title": "Upload example",
 	"directions": "This demonstrates a simple upload exercise.",
-	"component": [
+	"components": [
 		{
 			"type": "Upload",
 			"props": {

@@ -1,7 +1,7 @@
 {
 	"title": "Image Analysis example",
 	"directions": "This demonstrates an image analysis exercise.",
-	"component": [
+	"components": [
 		{
 			"type": "ImageAnalysis",
 			"props": {
