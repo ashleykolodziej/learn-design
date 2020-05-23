@@ -1,0 +1,40 @@
+{
+	"title": "Image Analysis example",
+	"directions": "This demonstrates an image analysis exercise.",
+	"components": [
+		{
+			"type": "ImageAnalysis",
+			"props": {
+				"prompts": [
+					{
+						"prompt": "What elements of design does this work demonstrate?",
+						"response": {
+							"type": "Textarea",
+							"props": [
+								"Line",
+								"Shape",
+								"Value"
+							]
+						}
+					},
+					{
+						"prompt": "How?",
+						"response": {
+							"type": "Options",
+							"props": {
+								"type": "multiple",
+								"isInline": true,
+								"choices": [
+									"Line",
+									"Shape",
+									"Value"
+								]
+							}
+						}
+					}
+				]
+			}
+		}
+	],
+	"validResponses": []
+}

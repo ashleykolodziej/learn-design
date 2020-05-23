@@ -1,0 +1,19 @@
+{
+	"title": "Multiple component exercise",
+	"directions": "Multiple components can be passed to the same exercise.",
+	"components": [
+		{
+			"type": "Kernable",
+			"props": {
+				"word": "Component One"
+			}
+		},
+		{
+			"type": "Kernable",
+			"props": {
+				"word": "Component Two"
+			}
+		}
+	],
+	"validResponses": []
+}
