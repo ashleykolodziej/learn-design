@@ -1,0 +1,31 @@
+{
+	"title": "Image Analysis example",
+	"directions": "This demonstrates an image analysis exercise.",
+	"component": [
+		{
+			"type": "ImageAnalysis",
+			"props": {
+				"prompts": [
+					{
+						"prompt": "What elements of design does this work demonstrate?",
+						"responseOptions": {
+							"type": "checkbox",
+							"options": [
+								"Line",
+								"Shape",
+								"Value"
+							]
+						}
+					},
+					{
+						"prompt": "How?",
+						"responseOptions": {
+							"type": "input"
+						}
+					}
+				]
+			}
+		}
+	],
+	"validResponses": []
+}

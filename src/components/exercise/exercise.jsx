@@ -4,6 +4,7 @@ import { Card } from 'components/ui/ui';
 
 import Kernable from 'components/kernable/kernable';
 import Upload from 'components/upload/upload';
+import ImageAnalysis from 'components/imageanalysis';
 import data from "./demo";
 
 let exercise = data;
@@ -22,7 +23,8 @@ let component = exercise.component[0];
 
 const Supported = {
 	Kernable,
-	Upload
+	Upload,
+	ImageAnalysis
 };
 
 class Exercise extends Component {
