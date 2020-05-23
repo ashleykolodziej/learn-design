@@ -1,31 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
+import { Supported, createElement } from 'components/dynamicElements';
 
-import Kernable from 'components/kernable/kernable';
-import Upload from 'components/upload/upload';
-import ImageAnalysis from 'components/imageanalysis';
 import data from "./demo";
 
 let exercise = data;
 let component = exercise.component[0];
-
-/**
-* A set of explicitly supported components for exercises.
-*
-* Why?
-*
-* Because React needs the component name to be assigned to a capitalized
-* variable in order to know to render it as a component and not HTML.
-*
-* See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
-*/
-
-const Supported = {
-	Kernable,
-	Upload,
-	ImageAnalysis
-};
 
 class Exercise extends Component {
 	constructor(props) {
@@ -58,23 +39,6 @@ class Exercise extends Component {
 		}
 	}
 
-	/**
-	* Creates a React element based on an explicitly supported list of components
-	* for this type of component. See Supported above.
-	*
-	* TODO: Create an optional generative exercise button.
-	*
-	* TODO: Create a button that does something appropriate on submit here,
-	* such as post to WordPress blog.
-	*/
-
-	createElement = ( component, props = component.props ) => {
-		return( React.createElement(
-			Supported[component.type],
-			props
-		) );
-	}
-
 	render() {
 		if ( this.state.isLoading ) return null;
 
@@ -83,7 +47,7 @@ class Exercise extends Component {
 				<Card textAlign="right">
 					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
 					<Text fontSize="lg" textAlign="left">{exercise.directions}</Text>
-					{ this.createElement( component ) }
+					{ createElement( component ) }
 				</Card>
 			</Fragment>
 		);

@@ -1,4 +1,8 @@
 import React from 'react';
+import Kernable from 'components/kernable/kernable';
+import Upload from 'components/upload/upload';
+import ImageAnalysis from 'components/imageanalysis';
+
 
 export const stringToSpans = ( str ) => {
 	let newHTML = [];

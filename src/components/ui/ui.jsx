@@ -1,5 +1,13 @@
 import React from 'react';
-import { Box, Heading } from "@chakra-ui/core";
+
+import {
+	Box,
+	Heading,
+	CheckboxGroup,
+	Checkbox,
+	RadioGroup,
+	Radio
+} from "@chakra-ui/core";
 
 export function Banner( props ) {
 	return (
@@ -23,5 +31,27 @@ export function Card( props ) {
 		<Box shadow="xl" borderWidth="1px" p={10} m={10} {...props}>
 			{props.children}
 		</Box>
+	);
+}
+
+export function Options( props ) {
+	return (
+		<>
+		{ props.type === "multiple"
+			?
+				<CheckboxGroup {...props}>
+					{ props.choices.map( ( choice, index ) =>
+						<Checkbox key={index.toString()} value={index.toString()}>{ choice }</Checkbox>
+					) }
+				</CheckboxGroup>
+			:
+				<RadioGroup {...props}>
+					{ props.choices.map( ( choice, index ) =>
+						<Radio key={index.toString()} value={index.toString()}>{ choice }</Radio>
+					) }
+				</RadioGroup>
+		}
+      </>
+
 	);
 }

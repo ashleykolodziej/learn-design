@@ -1,19 +1,18 @@
 import React from 'react';
 import Upload from 'components/upload/upload';
-
-function buildPrompts( promptsData ) {
-	console.log( promptsData );
-}
+import Prompt from './prompt';
+import { Grid, Box } from "@chakra-ui/core";
 
 function ImageAnalysis( props ) {
 	return (
-		<>
-			<div>
-				{ props.prompts[0].prompt }
-				{ buildPrompts( props.prompts ) }
-			</div>
+		<Grid templateColumns="repeat(2, 1fr)" gridGap={10}>
 			<Upload />
-		</>
+			<Box textAlign="left">
+			{ props.prompts.map( ( prompt, index ) =>
+				<Prompt data={prompt} key={index.toString()} />
+			) }
+			</Box>
+		</Grid>
 	);
 }
 
