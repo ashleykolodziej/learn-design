@@ -3,6 +3,7 @@ import { Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
 
 import Kernable from 'components/kernable/kernable';
+import Upload from 'components/upload/upload';
 import data from "./demo";
 
 let exercise = data;
@@ -20,7 +21,8 @@ let component = exercise.component[0];
 */
 
 const Supported = {
-	Kernable
+	Kernable,
+	Upload
 };
 
 class Exercise extends Component {

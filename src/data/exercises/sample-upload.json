@@ -1,0 +1,13 @@
+{
+	"title": "Upload example",
+	"directions": "This demonstrates a simple upload exercise.",
+	"component": [
+		{
+			"type": "Upload",
+			"props": {
+				"word": "Waving hello"
+			}
+		}
+	],
+	"validResponses": []
+}
