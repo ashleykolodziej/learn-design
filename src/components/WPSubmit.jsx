@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, useToast, Spinner } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
 
@@ -44,32 +44,26 @@ function LoadButton( { isLoading, children, ...props } ) {
 }
 
 function WPSubmit( props ) {
-	const [ isUploading, setIsUploading ] = useState( false );
+	const [ isUploading, setIsUploading ] = useState( null );
 	const toast = useToast();
 
 	/**
 	* Handles authorization.
 	*/
 
-	async function submit() {
+	const submit = useCallback( async () => {
+		// don't send again while we are sending
+		if ( isUploading ) return;
+
 		const siteID = auth.site_id;
 		const site = wpcom.site( siteID );
-		const post = {
-			title: 'Testing project auth w/promise',
-			tags: [
-				'bucomlearnsdesign'
-			]
-		}
+		const post = props.postData;
 
+		// update state
 		setIsUploading( true );
 
-		// Post type is jetpack-portfolio
-		// But this won't let us use feeds, so we'll use normal posts.
-		// https://public-api.wordpress.com/rest/v1.2/sites/lldtestsite.wordpress.com/posts?type=jetpack-portfolio
-
-		// Free image compression API here: http://resmush.it/
-
-      await site.addPost( post ).then( ( data ) => {
+		// send the actual request
+		await site.addPost( post ).then( ( data ) => {
 			console.log("Success");
 			console.log(data);
 
@@ -93,14 +87,24 @@ function WPSubmit( props ) {
 			});
 		} );
 
+		// once the request is sent, update state again
 		setIsUploading( false );
-	}
+	}, [ isUploading ]);
 
 	return (
 		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
 			{ props.text || "Submit" }
 		</LoadButton>
 	);
+}
+
+WPSubmit.defaultProps = {
+	postData: {
+		title: 'Move it to a prop',
+		tags: [
+			'bucomlearnsdesign'
+		]
+	}
 }
 
 export default WPSubmit;
