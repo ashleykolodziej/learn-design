@@ -98,6 +98,8 @@ function WPSubmit( props ) {
 	);
 }
 
+// Next: I need to figure out how to pass state from parent down here.
+
 WPSubmit.defaultProps = {
 	postData: {
 		title: 'Move it to a prop',
