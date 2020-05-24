@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Box, Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
 import { Supported, createElement } from 'components/dynamicElements';
@@ -8,7 +8,7 @@ import data from "./demo";
 let exercise = data;
 let components = exercise.components;
 
-class Exercise extends Component {
+class Exercise extends PureComponent {
 	constructor(props) {
 		super(props);
 

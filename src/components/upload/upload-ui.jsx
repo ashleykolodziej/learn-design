@@ -1,7 +1,8 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { formatBytes } from 'components/library';
 import { Flex, Heading } from "@chakra-ui/core";
+import { PostContext } from 'components/postmanager';
 
 const baseStyle = {
 	flex: 1,
@@ -74,6 +75,8 @@ const imgName = {
 function Upload( props ) {
 	const [files, setFiles] = useState([]);
 	const [hintText, setHintText] = useState([]);
+	const [context, setContext] = useContext( PostContext );
+
 	const {
 		acceptedFiles,
 		getRootProps,
@@ -88,6 +91,11 @@ function Upload( props ) {
 			setFiles(acceptedFiles.map(file => Object.assign(file, {
 				preview: URL.createObjectURL(file)
 			})));
+
+			const newMedia = acceptedFiles.map( file => file.path );
+
+			updateMediaContext( newMedia );
+
 			setHintText( "Click or drag to upload a different image" );
 		}
 	} );
@@ -99,11 +107,27 @@ function Upload( props ) {
 		newFiles.splice( newFiles.indexOf( file ), 1 );
 		setFiles( newFiles );
 		setHintText( props.hintText );
+
+		// TODO: Find the right file and remove.
+		updateMediaContext( [] );
 	}
 
 	const removeAll = () => {
 		setFiles([])
 		setHintText( props.hintText );
+		updateMediaContext( [] );
+	}
+
+	const updateMediaContext = ( files ) => {
+		console.log(context);
+
+		const mediaFiles = Object.assign( context, {
+			media: files
+		} );
+
+		console.log(mediaFiles);
+
+		setContext( mediaFiles );
 	}
 
 	const thumbs = files.map(file => (

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { Button, useToast, Spinner } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
+import { PostContext } from 'components/postmanager';
 
 /**
 * A set of explicitly supported components for exercises.
@@ -14,9 +15,10 @@ import { auth, wpcom } from 'components/authorize';
 */
 
 function LoadButton( { isLoading, children, ...props } ) {
-	const [ width, setWidth ] = React.useState( 0 );
-	const [ height, setHeight ] = React.useState( 0 );
-	const ref = React.useRef( null );
+	const [ width, setWidth ] = useState( 0 );
+	const [ height, setHeight ] = useState( 0 );
+	const [ context, setContext ] = useContext( PostContext );
+	const ref = useRef( null );
 
 	useEffect( () => {
 		if ( ref.current && ref.current.getBoundingClientRect().width ) {
@@ -43,53 +45,59 @@ function LoadButton( { isLoading, children, ...props } ) {
 	);
 }
 
+/**
+* Handles authorization.
+*/
+
+async function sendData( props ) {
+	const siteID = auth.site_id;
+	const site = wpcom.site( siteID );
+	const post = props.postData;
+
+	// send the actual request
+	// post
+	return await site.addPost( null ).then( ( data ) => {
+		return data;
+	} ).catch( ( err ) => {
+		return err.message;
+	} );
+}
+
 function WPSubmit( props ) {
 	const [ isUploading, setIsUploading ] = useState( null );
 	const toast = useToast();
-
-	/**
-	* Handles authorization.
-	*/
 
 	const submit = useCallback( async () => {
 		// don't send again while we are sending
 		if ( isUploading ) return;
 
-		const siteID = auth.site_id;
-		const site = wpcom.site( siteID );
-		const post = props.postData;
-
 		// update state
 		setIsUploading( true );
 
 		// send the actual request
-		await site.addPost( post ).then( ( data ) => {
-			console.log("Success");
-			console.log(data);
+		const post = await sendData( props );
 
+		if ( post.URL ) {
 			toast({
 				title: "Posted!",
-				description: `We've created your account for you. Check out your new project at ${data.URL}.`,
+				description: `Check out your new project at ${post.URL}.`,
 				status: "success",
 				duration: 9000,
 				isClosable: true,
 			});
-		} ).catch( (err, post) => {
-			console.log(err);
-			console.log(post);
-
+		} else {
 			toast({
-				title: "Something went wrong",
-				description: `Error: ${err}.`,
+				title: "Something went wrong. Try again later.",
+				description: `Error: ${post}.`,
 				status: "error",
 				duration: 9000,
 				isClosable: true,
 			});
-		} );
+		}
 
 		// once the request is sent, update state again
 		setIsUploading( false );
-	}, [ isUploading ]);
+	}, [ isUploading, props ] );
 
 	return (
 		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
