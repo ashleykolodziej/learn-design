@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
+import React from "react";
+//import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
+import { Box, Heading, Flex, Text } from "@chakra-ui/core";
 import LoginButton from "./login/login";
 import Home from "./templates/home";
 import Profile from "./templates/profile";
@@ -10,7 +11,7 @@ import Critique from "./templates/critique";
 import Inspiration from "./templates/inspiration";
 import data from "../data/class/site.json";
 
-import { PostContext } from 'components/postmanager';
+//import { PostContext } from 'components/postmanager';
 
 import {
   BrowserRouter as Router,
@@ -47,8 +48,7 @@ const createElement = ( component, props = component.props ) => {
 }
 
 function Header( props ) {
-  const { colorMode, toggleColorMode } = useColorMode( "light" );
-  const [context] = useContext( PostContext );
+  //const { colorMode, toggleColorMode } = useColorMode( "light" );
 
       return (
           <Router>
@@ -98,9 +98,10 @@ function Header( props ) {
         mt={{ base: 4, md: 0 }}
       >
         <LoginButton />
+        {/*
         <Button bg="transparent" border="1px" onClick={toggleColorMode}>
           Toggle {colorMode === "light" ? "Dark" : "Light"}
-        </Button>
+        </Button>*/}
       </Box>
     </Flex>
     <Switch>
