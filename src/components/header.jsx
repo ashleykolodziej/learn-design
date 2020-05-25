@@ -66,7 +66,6 @@ function Header( props ) {
         <Heading as="h1" size="lg">
           <Link to="/">{data.title}</Link>
         </Heading>
-        <span>{ context.title }</span>
       </Flex>
 
       <Box display={{ xs: "block", md: "none" }}>
