@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useColorMode, Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
 import LoginButton from "./login/login";
 import Home from "./templates/home";
@@ -9,6 +9,8 @@ import Blog from "./templates/blog";
 import Critique from "./templates/critique";
 import Inspiration from "./templates/inspiration";
 import data from "../data/class/site.json";
+
+import { PostContext } from 'components/postmanager';
 
 import {
   BrowserRouter as Router,
@@ -46,6 +48,7 @@ const createElement = ( component, props = component.props ) => {
 
 function Header( props ) {
   const { colorMode, toggleColorMode } = useColorMode( "light" );
+  const [context, setContext] = useContext( PostContext );
 
       return (
           <Router>
@@ -63,6 +66,7 @@ function Header( props ) {
         <Heading as="h1" size="lg">
           <Link to="/">{data.title}</Link>
         </Heading>
+        <span>{ context.title }</span>
       </Flex>
 
       <Box display={{ xs: "block", md: "none" }}>

@@ -2,6 +2,7 @@ import React from 'react';
 import Upload from 'components/upload/upload-ui';
 import Prompt from './prompt';
 import { Grid, Box } from "@chakra-ui/core";
+import WPSubmit from 'components/WPSubmit';
 
 function Compare( props ) {
 	return (
@@ -39,6 +40,8 @@ function ImageAnalysis( props ) {
 		{ props.type === 'examine' &&
 			<Examine {...props} />
 		}
+
+		<WPSubmit />
 		</>
 	);
 }
