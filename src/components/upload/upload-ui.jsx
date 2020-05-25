@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { formatBytes } from 'components/library';
-import { Flex, Heading } from "@chakra-ui/core";
+import { Flex } from "@chakra-ui/core";
 import { PostContext } from 'components/postmanager';
 
 const baseStyle = {
@@ -33,14 +33,6 @@ const acceptStyle = {
 
 const rejectStyle = {
 	borderColor: '#ff1744'
-};
-
-const thumbsContainer = {
-	display: 'flex',
-	flexDirection: 'row',
-	flexWrap: 'wrap',
-	marginTop: 16,
-	textAlign: 'left'
 };
 
 const thumb = {
@@ -78,7 +70,6 @@ function Upload( props ) {
 	const [context, setContext] = useContext( PostContext );
 
 	const {
-		acceptedFiles,
 		getRootProps,
 		getInputProps,
 		isDragActive,
@@ -91,10 +82,6 @@ function Upload( props ) {
 			setFiles(acceptedFiles.map(file => Object.assign(file, {
 				preview: URL.createObjectURL(file)
 			})));
-
-			const newMedia = acceptedFiles.map( file => file.path );
-
-			console.log(newMedia);
 
 			updateMediaContext( acceptedFiles );
 
@@ -114,21 +101,16 @@ function Upload( props ) {
 		updateMediaContext( [] );
 	}
 
-	const removeAll = () => {
+	/*const removeAll = () => {
 		setFiles([])
 		setHintText( props.hintText );
 		updateMediaContext( [] );
-	}
+	}*/
 
 	const updateMediaContext = ( files ) => {
-		console.log(context);
-
 		const mediaFiles = Object.assign( context, {
 			dropzone: files
 		} );
-
-		console.log(mediaFiles);
-
 		setContext( mediaFiles );
 	}
 
@@ -139,6 +121,7 @@ function Upload( props ) {
 					<img
 					src={file.preview}
 					style={img}
+					alt={ file.name }
 					/>
 				</div>
 			</div>
@@ -148,7 +131,7 @@ function Upload( props ) {
 
 	useEffect(() => {
 		setHintText( props.hintText );
-	}, []);
+	}, [ props.hintText ]);
 
 	useEffect(() => () => {
 		// Make sure to revoke the data uris to avoid memory leaks

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Kernable from 'components/kernable/kernable';
-import Upload from 'components/upload/upload';
+import Upload from 'components/upload/upload-ui';
 import ImageAnalysis from 'components/imageanalysis';
 import { Options } from 'components/ui/ui';
 

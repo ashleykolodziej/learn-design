@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Heading } from "@chakra-ui/core";
-import { Supported, createElement } from 'components/dynamicElements';
+import { createElement } from 'components/dynamicElements';
 
 function Prompt( props ) {
 	const prompt = props.data;

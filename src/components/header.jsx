@@ -48,7 +48,7 @@ const createElement = ( component, props = component.props ) => {
 
 function Header( props ) {
   const { colorMode, toggleColorMode } = useColorMode( "light" );
-  const [context, setContext] = useContext( PostContext );
+  const [context] = useContext( PostContext );
 
       return (
           <Router>

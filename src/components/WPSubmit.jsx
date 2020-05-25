@@ -51,7 +51,6 @@ function LoadButton( { isLoading, children, ...props } ) {
 async function sendData( props, context, setContext ) {
 	const siteID = auth.site_id;
 	const site = wpcom.site( siteID );
-	const post = props.postData;
 
 	// Add media files first, then attach them, and send with content.
 	// Any content. There needs to be something or they won't show in the post.
@@ -108,7 +107,7 @@ function WPSubmit( props ) {
 
 		// once the request is sent, update state again
 		setIsUploading( false );
-	}, [ isUploading, props ] );
+	}, [ context, setContext, toast, isUploading, props ] );
 
 	return (
 		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
