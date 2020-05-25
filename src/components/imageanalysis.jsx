@@ -8,9 +8,9 @@ function Compare( props ) {
 	return (
 		<Grid templateColumns="repeat(2, 1fr)" gridGap={10}>
 			{ props.prompts.map( ( prompt, index ) =>
-				<Box textAlign="left">
+				<Box textAlign="left" key={index.toString()}>
 					<Upload hintText={ prompt.uploadHint } />
-					<Prompt data={prompt} key={index.toString()} />
+					<Prompt data={prompt} />
 				</Box>
 			) }
 		</Grid>

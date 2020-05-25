@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Box, Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
-import { Supported, createElement } from 'components/dynamicElements';
+import { createElement } from 'components/dynamicElements';
 
 import data from "./demo";
 
@@ -49,8 +49,8 @@ class Exercise extends PureComponent {
 				<Card textAlign="right">
 					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
 					<Text fontSize="lg" textAlign="left" dangerouslySetInnerHTML={this.createMarkup(exercise.directions)} />
-					{ components.map( ( component ) =>
-						<Box mb={10}>
+					{ components.map( ( component, index ) =>
+						<Box mb={10} key={index.toString()}>
 						{ createElement( component ) }
 						</Box>
 					) }

@@ -48,7 +48,7 @@ const createElement = ( component, props = component.props ) => {
 
 function Header( props ) {
   const { colorMode, toggleColorMode } = useColorMode( "light" );
-  const [context, setContext] = useContext( PostContext );
+  const [context] = useContext( PostContext );
 
       return (
           <Router>
@@ -66,7 +66,6 @@ function Header( props ) {
         <Heading as="h1" size="lg">
           <Link to="/">{data.title}</Link>
         </Heading>
-        <span>{ context.title }</span>
       </Flex>
 
       <Box display={{ xs: "block", md: "none" }}>
