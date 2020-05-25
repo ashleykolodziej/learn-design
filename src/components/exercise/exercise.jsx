@@ -1,21 +1,24 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Box, Heading, Text } from "@chakra-ui/core";
+import React, { useEffect, useState } from 'react';
+import { Skeleton, Box, Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
 import { createElement } from 'components/dynamicElements';
+import { PostContext } from 'components/postmanager';
 
 import data from "./demo";
 
-let exercise = data;
-let components = exercise.components;
+const testpost = {
+	title: 'Test Context',
+	tags: [
+		''
+	]
+}
 
-class Exercise extends PureComponent {
-	constructor(props) {
-		super(props);
+const createMarkup = htmlString => ({ __html: htmlString });
 
-		this.state = {
-			isLoading: false
-		};
-	}
+function Exercise( props ) {
+	const [ context, setContext ] = useState( testpost );
+	const [ exercise, setExercise ] = useState( data );
+	const [ isLoading, setIsLoading ] = useState( true );
 
 	/**
 	* If there is an exercise name defined, load the exercise data.
@@ -23,41 +26,41 @@ class Exercise extends PureComponent {
 	* Finally, hold off on rendering until we know for sure what's going on.
 	*/
 
-	async componentDidMount() {
-		const exerciseName = this.props.name;
+	useEffect( () => {
+		async function fetchExercise() {
+			const exerciseName = props.name;
 
-		if ( exerciseName ) {
-			this.setState({ isLoading: true });
-			await import(`../../data/exercises/${exerciseName}.json`).then(value => {
-				exercise = value.default;
-				components = exercise.components;
-				this.setState({ isLoading: false });
-			}, reason => {
-			  this.setState({ isLoading: false });
-			  console.error( "The requested exercise couldn't be found. Rendering the demo exercise." );
-			});
+			if ( exerciseName ) {
+				setIsLoading( true );
+
+				await import(`../../data/exercises/${exerciseName}.json`).then( value => {
+					setExercise( value.default )
+					setIsLoading( false );
+				}, reason => {
+					setIsLoading( false );
+					console.error( "The requested exercise couldn't be found. Rendering the demo exercise." );
+				});
+			}
 		}
-	}
 
-	createMarkup = htmlString => ({ __html: htmlString });
+		fetchExercise();
+	}, []);
 
-	render() {
-		if ( this.state.isLoading ) return null;
-
-		return (
-			<Fragment>
+	return (
+		<Skeleton isLoaded={ !isLoading }>
+			<PostContext.Provider value={ [ context, setContext ] }>
 				<Card textAlign="right">
-					<Heading as="h3" size="lg" textAlign="left">{exercise.title}</Heading>
-					<Text fontSize="lg" textAlign="left" dangerouslySetInnerHTML={this.createMarkup(exercise.directions)} />
-					{ components.map( ( component, index ) =>
-						<Box mb={10} key={index.toString()}>
+					<Heading as="h3" size="lg" textAlign="left">{ exercise.title }</Heading>
+					<Text fontSize="lg" textAlign="left" dangerouslySetInnerHTML={ createMarkup( exercise.directions ) } />
+					{ exercise.components.map( ( component, index ) =>
+						<Box mb={10} key={ index.toString() }>
 						{ createElement( component ) }
 						</Box>
 					) }
 				</Card>
-			</Fragment>
-		);
-	}
+			</PostContext.Provider>
+		</Skeleton>
+	);
 }
 
 export default Exercise;
