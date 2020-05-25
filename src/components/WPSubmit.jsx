@@ -53,25 +53,21 @@ async function sendData( props, context, setContext ) {
 	const site = wpcom.site( siteID );
 	const post = props.postData;
 
-	// send the actual request
-	// post
+	// Add media files first, then attach them, and send with content.
+	// Any content. There needs to be something or they won't show in the post.
 	return await site.addMediaFiles( context.dropzone )
 	.then( response => {
-		console.log( 'The media is ', response.media );
 		const mediaID = response.media[0].ID;
 		const mediaURLs = response.media.map( image => image.URL );
-
-		console.log(mediaURLs);
+		const content = 'The test content has images, maybe.';
 
 		const mediaUploaded = Object.assign( context, {
 			featured_image: mediaID,
-			media_urls: mediaURLs
+			media_urls: mediaURLs,
+			content: content
 		} );
 
-		console.log('I fixed the context?', mediaUploaded);
-
 		setContext( mediaUploaded );
-		console.log(context);
 
 		return site.addPost( context );
 	} );
@@ -91,8 +87,6 @@ function WPSubmit( props ) {
 
 		// send the actual request
 		const post = await sendData( props, context, setContext );
-
-		console.log(post);
 
 		if ( post.URL ) {
 			toast({
