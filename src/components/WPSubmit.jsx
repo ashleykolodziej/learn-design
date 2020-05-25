@@ -17,7 +17,6 @@ import { PostContext } from 'components/postmanager';
 function LoadButton( { isLoading, children, ...props } ) {
 	const [ width, setWidth ] = useState( 0 );
 	const [ height, setHeight ] = useState( 0 );
-	const [ context, setContext ] = useContext( PostContext );
 	const ref = useRef( null );
 
 	useEffect( () => {
@@ -49,22 +48,38 @@ function LoadButton( { isLoading, children, ...props } ) {
 * Handles authorization.
 */
 
-async function sendData( props ) {
+async function sendData( props, context, setContext ) {
 	const siteID = auth.site_id;
 	const site = wpcom.site( siteID );
 	const post = props.postData;
 
 	// send the actual request
 	// post
-	return await site.addPost( null ).then( ( data ) => {
-		return data;
-	} ).catch( ( err ) => {
-		return err.message;
+	return await site.addMediaFiles( context.dropzone )
+	.then( response => {
+		console.log( 'The media is ', response.media );
+		const mediaID = response.media[0].ID;
+		const mediaURLs = response.media.map( image => image.URL );
+
+		console.log(mediaURLs);
+
+		const mediaUploaded = Object.assign( context, {
+			featured_image: mediaID,
+			media_urls: mediaURLs
+		} );
+
+		console.log('I fixed the context?', mediaUploaded);
+
+		setContext( mediaUploaded );
+		console.log(context);
+
+		return site.addPost( context );
 	} );
 }
 
 function WPSubmit( props ) {
 	const [ isUploading, setIsUploading ] = useState( null );
+	const [ context, setContext ] = useContext( PostContext );
 	const toast = useToast();
 
 	const submit = useCallback( async () => {
@@ -75,7 +90,9 @@ function WPSubmit( props ) {
 		setIsUploading( true );
 
 		// send the actual request
-		const post = await sendData( props );
+		const post = await sendData( props, context, setContext );
+
+		console.log(post);
 
 		if ( post.URL ) {
 			toast({

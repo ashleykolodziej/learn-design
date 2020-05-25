@@ -94,7 +94,9 @@ function Upload( props ) {
 
 			const newMedia = acceptedFiles.map( file => file.path );
 
-			updateMediaContext( newMedia );
+			console.log(newMedia);
+
+			updateMediaContext( acceptedFiles );
 
 			setHintText( "Click or drag to upload a different image" );
 		}
@@ -122,7 +124,7 @@ function Upload( props ) {
 		console.log(context);
 
 		const mediaFiles = Object.assign( context, {
-			media: files
+			dropzone: files
 		} );
 
 		console.log(mediaFiles);
