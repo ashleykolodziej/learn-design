@@ -53,32 +53,28 @@ function Profile() {
 	*/
 
 	useEffect(() => {
-		const fetchData = () => {
-			const user = wpcom.me(),
-					site = wpcom.site( auth.site_id );
+		const user = wpcom.me(),
+				site = wpcom.site( auth.site_id );
 
-			user.get().then( ( data ) => {
-					console.log( data );
-					setUserInfo( data );
-					setUserIsLoading( false );
-				} ).catch( ( error ) => {
-					console.warn( error );
-					setUserInfo( null );
-					setUserIsLoading( false );
-				} );
-
-			site.get().then( ( data ) => {
-				setSiteInfo( data );
-				setSiteIsLoading( false );
-				console.log(data);
+		user.get().then( ( data ) => {
+				console.log( data );
+				setUserInfo( data );
+				setUserIsLoading( false );
 			} ).catch( ( error ) => {
 				console.warn( error );
-				setSiteInfo( null );
-				setSiteIsLoading( false );
+				setUserInfo( null );
+				setUserIsLoading( false );
 			} );
-		};
 
-		fetchData();
+		site.get().then( ( data ) => {
+			setSiteInfo( data );
+			setSiteIsLoading( false );
+			console.log(data);
+		} ).catch( ( error ) => {
+			console.warn( error );
+			setSiteInfo( null );
+			setSiteIsLoading( false );
+		} );
 	}, []);
 
 	return (

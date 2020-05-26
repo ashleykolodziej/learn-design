@@ -14,7 +14,7 @@ import { PostContext } from 'contexts/post';
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-function LoadButton( { isLoading, children, ...props } ) {
+export function LoadButton( { isLoading, children, ...props } ) {
 	const [ width, setWidth ] = useState( 0 );
 	const [ height, setHeight ] = useState( 0 );
 	const ref = useRef( null );

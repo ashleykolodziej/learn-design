@@ -44,7 +44,7 @@ function Exercise( props ) {
 		}
 
 		fetchExercise();
-	}, []);
+	}, [ props.name ]);
 
 	return (
 		<Skeleton isLoaded={ !isLoading }>
