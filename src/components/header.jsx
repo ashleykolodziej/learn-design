@@ -11,8 +11,6 @@ import Critique from "./templates/critique";
 import Inspiration from "./templates/inspiration";
 import data from "../data/class/site.json";
 
-//import { PostContext } from 'components/postmanager';
-
 import {
   BrowserRouter as Router,
   Switch,

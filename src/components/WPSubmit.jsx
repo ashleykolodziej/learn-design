@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { Button, useToast, Spinner } from "@chakra-ui/core";
 import { auth, wpcom } from 'components/authorize';
-import { PostContext } from 'components/postmanager';
+import { PostContext } from 'contexts/post';
 
 /**
 * A set of explicitly supported components for exercises.

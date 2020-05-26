@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Skeleton, Box, Heading, Text } from "@chakra-ui/core";
 import { Card } from 'components/ui/ui';
 import { createElement } from 'components/dynamicElements';
-import { PostContext } from 'components/postmanager';
+import { PostContext } from 'contexts/post';
 
 import data from "./demo";
 
