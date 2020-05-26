@@ -24,9 +24,10 @@ async function setAuths( context, setContext, setIsUploading ) {
 			user = wpcom.me(),
 			site = wpcom.site( auth.site_id );
 
-	await user.get().then( ( data ) => {
+	await user.settings().get( { meta: true } ).then( ( data ) => {
 		setContext( Object.assign( context, {
-			'user': data
+			'user': data,
+			is_logged_in: true
 		} ) );
 		setIsUploading( false );
 	} ).catch( ( error ) => {
@@ -60,7 +61,12 @@ function LoginButton( props ) {
 
 	return (
 		<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
-			Hi, { context.user.display_name }
+			{ console.log(context.user) }
+			{ context.is_logged_in ?
+				<span>Hi, { context.user.first_name }!</span>
+			:
+				<span>Log in to WordPress</span>
+			}
 		</LoadButton>
 	);
 }

@@ -20,10 +20,10 @@ export function LoadButton( { isLoading, children, ...props } ) {
 	const ref = useRef( null );
 
 	useEffect( () => {
-		if ( ref.current && ref.current.getBoundingClientRect().width ) {
+		if ( ref.current && ref.current.getBoundingClientRect().width && props.keepWidth ) {
 			setWidth( ref.current.getBoundingClientRect().width );
 		}
-		if ( ref.current && ref.current.getBoundingClientRect().height ) {
+		if ( ref.current && ref.current.getBoundingClientRect().height && props.keepWidth ) {
 			setHeight( ref.current.getBoundingClientRect().height );
 		}
 	},
@@ -110,7 +110,7 @@ function WPSubmit( props ) {
 	}, [ context, setContext, toast, isUploading, props ] );
 
 	return (
-		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
+		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading } keepWidth>
 			{ props.text || "Submit" }
 		</LoadButton>
 	);

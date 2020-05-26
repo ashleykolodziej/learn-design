@@ -4,6 +4,7 @@ export const authDefaults = {
 	client_id: 68924,
 	auth: null,
 	wpcom: null,
+	is_logged_in: false,
 	user: {
 		'display_name': ''
 	},
