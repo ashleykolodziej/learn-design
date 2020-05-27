@@ -95,7 +95,9 @@ function Header( props ) {
         display={{ xs: "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <LoginButton />
+        <Link to={ "/profile"}>
+          <LoginButton />
+        </Link>
         {/*
         <Button bg="transparent" border="1px" onClick={toggleColorMode}>
           Toggle {colorMode === "light" ? "Dark" : "Light"}

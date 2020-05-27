@@ -1,26 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Button } from "@chakra-ui/core";
+import { Flex, Button } from "@chakra-ui/core";
 import { AuthContext, authDefaults, UserContext, SiteContext } from 'contexts/auth';
 import { LoadButton } from 'components/WPSubmit';
+import { ProfilePhoto } from 'components/ui/ui';
 
 import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';
 
-//setContext( mediaFiles );
-
 async function getAuth( context, setAuth, setIsUploading ) {
 	const clientID = context.client_id,
-		wpcomOAuth = wpcomOAuthFactory( clientID );
+			wpcomOAuth = wpcomOAuthFactory( clientID );
 
 	wpcomOAuth.get( ( auth ) => {
-		console.log(auth);
 		setAuth( Object.assign( authDefaults, {
 			'auth': auth,
-			'wpcom': wpcomFactory( auth.access_token )
+			'wpcom': wpcomFactory( auth.access_token ),
+			'is_logged_in': true
 		} ) );
 	} );
-
-	return;
 }
 
 async function getUser( authContext, setUser, setIsUploading ) {
@@ -43,7 +40,6 @@ async function getUser( authContext, setUser, setIsUploading ) {
 }
 
 async function getSite( authContext, setSite, setIsUploading ) {
-	console.log(authContext);
 	const wpcom = authContext.wpcom,
 			site = wpcom.site( authContext.auth.site_id );
 
@@ -78,7 +74,10 @@ function LoginButton( props ) {
 	return (
 		<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
 			{ auth.is_logged_in ?
-				<span>Hi, { user.first_name }!</span>
+				<Flex align="center">
+					<ProfilePhoto data={ user } width="25px" mr={2} />
+					Hi, { user.user.first_name }!
+				</Flex>
 			:
 				<span>Log in to WordPress</span>
 			}
