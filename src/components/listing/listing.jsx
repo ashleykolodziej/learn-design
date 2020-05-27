@@ -1,7 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Grid, Skeleton } from "@chakra-ui/core";
 import Project from 'components/listing/project';
-import { wpcom } from 'components/authorize';
+import { AuthContext } from 'contexts/auth';
+
+const wpcom = AuthContext.wpcom;
 
 /**
 * A set of explicitly supported components for exercises.

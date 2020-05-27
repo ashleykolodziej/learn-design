@@ -7,19 +7,32 @@ import { ProfilePhoto } from 'components/ui/ui';
 import wpcomFactory from 'wpcom';
 import wpcomOAuthFactory from 'wpcom-oauth-cors';
 
-async function getAuth( context, setAuth, setIsUploading ) {
-	const clientID = context.client_id,
-			wpcomOAuth = wpcomOAuthFactory( clientID );
+const clientID = authDefaults.client_id,
+		wpcomOAuth = wpcomOAuthFactory( clientID ),
+		token = wpcomOAuth.token();
 
-	wpcomOAuth.get( ( auth ) => {
+function logIn( setAuth ) {
+	if ( ! token ) {
+		/*wpcomOAuth.get( ( auth ) => {
+			setAuth( Object.assign( authDefaults, {
+				'auth': auth,
+				'wpcom': wpcomFactory( auth.access_token ),
+				'is_logged_in': true
+			} ) );
+		} );*/
+	}
+}
+
+async function getAuth( setAuth ) {
+	if ( token ) {
 		setAuth( Object.assign( authDefaults, {
-			'auth': auth,
-			'wpcom': wpcomFactory( auth.access_token ),
+			'auth': token,
+			'wpcom': wpcomFactory( token.access_token ),
 			'is_logged_in': true
 		} ) );
-
-		localStorage.setItem( 'loggedIn', true )
-	} );
+	} else {
+		return false;
+	}
 }
 
 async function getUser( authContext, setUser, setIsUploading ) {
@@ -66,35 +79,24 @@ function LoginButton( props ) {
 	const [ isUploading, setIsUploading ] = useState( true );
 
 	useEffect( () => {
-		if ( localStorage.getItem( 'loggedIn' ) ) {
-			getAuth( auth, setAuth, setIsUploading )
-			.then( () => {
-				getUser( auth, setUser, setIsUploading );
-				getSite( auth, setSite, setIsUploading );
-			} );
-		}
+		getAuth( setAuth )
+		.then( () => {
+			getUser( auth, setUser, setIsUploading );
+			getSite( auth, setSite, setIsUploading );
+		} );
 	}, [ auth, setAuth, setIsUploading ]);
 
 	return (
-			localStorage.getItem( 'loggedIn' ) ?
-				<Button bg="transparent" border="1px" mr={5} width="auto">
-					<Flex align="center">
-						<ProfilePhoto data={ user } width="25px" mr={2} />
-						Hi, { user.user.first_name }!
-					</Flex>
-				</Button>
+		<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
+			{ auth.is_logged_in ?
+				<Flex align="center">
+					<ProfilePhoto data={ user } width="25px" mr={2} />
+					Hi, { user.user.first_name }!
+				</Flex>
 			:
-				<Button bg="transparent" border="1px" mr={5} width="auto" onClick={
-					() => {
-						getAuth( auth, setAuth, setIsUploading )
-						.then( () => {
-							getUser( auth, setUser, setIsUploading );
-							getSite( auth, setSite, setIsUploading );
-						} )
-					}
-				}>
-					<span>Log in to WordPress</span>
-				</Button>
+				<span>Log in to WordPress</span>
+			}
+		</LoadButton>
 	);
 }
 
