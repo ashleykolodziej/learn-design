@@ -17,6 +17,8 @@ async function getAuth( context, setAuth, setIsUploading ) {
 			'wpcom': wpcomFactory( auth.access_token ),
 			'is_logged_in': true
 		} ) );
+
+		localStorage.setItem( 'loggedIn', true )
 	} );
 }
 
@@ -64,24 +66,35 @@ function LoginButton( props ) {
 	const [ isUploading, setIsUploading ] = useState( true );
 
 	useEffect( () => {
-		getAuth( auth, setAuth, setIsUploading )
-		.then( () => {
-			getUser( auth, setUser, setIsUploading );
-			getSite( auth, setSite, setIsUploading );
-		} );
+		if ( localStorage.getItem( 'loggedIn' ) ) {
+			getAuth( auth, setAuth, setIsUploading )
+			.then( () => {
+				getUser( auth, setUser, setIsUploading );
+				getSite( auth, setSite, setIsUploading );
+			} );
+		}
 	}, [ auth, setAuth, setIsUploading ]);
 
 	return (
-		<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
-			{ auth.is_logged_in ?
-				<Flex align="center">
-					<ProfilePhoto data={ user } width="25px" mr={2} />
-					Hi, { user.user.first_name }!
-				</Flex>
+			localStorage.getItem( 'loggedIn' ) ?
+				<Button bg="transparent" border="1px" mr={5} width="auto">
+					<Flex align="center">
+						<ProfilePhoto data={ user } width="25px" mr={2} />
+						Hi, { user.user.first_name }!
+					</Flex>
+				</Button>
 			:
-				<span>Log in to WordPress</span>
-			}
-		</LoadButton>
+				<Button bg="transparent" border="1px" mr={5} width="auto" onClick={
+					() => {
+						getAuth( auth, setAuth, setIsUploading )
+						.then( () => {
+							getUser( auth, setUser, setIsUploading );
+							getSite( auth, setSite, setIsUploading );
+						} )
+					}
+				}>
+					<span>Log in to WordPress</span>
+				</Button>
 	);
 }
 
