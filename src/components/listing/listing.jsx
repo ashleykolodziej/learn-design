@@ -1,9 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { Grid, Skeleton } from "@chakra-ui/core";
 import Project from 'components/listing/project';
 import { AuthContext } from 'contexts/auth';
-
-const wpcom = AuthContext.wpcom;
 
 /**
 * A set of explicitly supported components for exercises.
@@ -19,15 +17,18 @@ const wpcom = AuthContext.wpcom;
 function ProjectListing( props ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ data, setData ] = useState( null );
+	const [ auth ] = useContext( AuthContext );
 
 	/**
 	* Get the posts by tag.
 	*/
 
 	useEffect(() => {
-		const fetchData = () => {
+		const wpcom = auth.wpcom;
+
+		const fetchData = async () => {
 			console.log("running");
-			wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
+			await wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
 				.then( ( data ) => {
 					setData( data );
 					setIsLoading( false );
