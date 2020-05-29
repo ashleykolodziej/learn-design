@@ -5,25 +5,18 @@ import { LoadButton } from 'components/WPSubmit';
 import { ProfilePhoto } from 'components/ui/ui';
 
 import wpcomFactory from 'wpcom';
-import wpcomOAuthFactory from 'wpcom-oauth-cors';
+import wpcomOAuthFactory, { getCurrentUrl, setCurrentUrl, setLocalStorageValue } from 'wpcom-oauth-cors';
+var url = require( 'url' );
+var querystring = require( 'querystring' );
 
 const clientID = authDefaults.client_id,
 		wpcomOAuth = wpcomOAuthFactory( clientID ),
 		token = wpcomOAuth.token();
 
-function logIn( setAuth ) {
-	if ( ! token ) {
-		/*wpcomOAuth.get( ( auth ) => {
-			setAuth( Object.assign( authDefaults, {
-				'auth': auth,
-				'wpcom': wpcomFactory( auth.access_token ),
-				'is_logged_in': true
-			} ) );
-		} );*/
-	}
-}
-
 async function getAuth( setAuth ) {
+	// get url parsed object
+	const url_parsed = url.parse( getCurrentUrl(), true );
+
 	if ( token ) {
 		setAuth( Object.assign( authDefaults, {
 			'auth': token,
@@ -32,6 +25,23 @@ async function getAuth( setAuth ) {
 		} ) );
 
 		return true;
+	} else if ( url_parsed.hash && url_parsed.hash.length > 1 ) {
+		// Originally from the wpcom-oauth-cors get function, which does not work for
+		// my needs here because it always redirects if there's no token.
+		// I want to delay the redirect until you actually click something.
+		// Source: https://github.com/Automattic/wpcom-oauth-cors/blob/master/dist/wpcom-oauth.js#L121
+
+		// get hash object
+		const hash = querystring.parse(url_parsed.hash.substring(1));
+
+		if ( hash && hash.access_token ) {
+			// Token is present in current URI
+			// store access_token
+			setLocalStorageValue('wp_oauth', JSON.stringify( hash ));
+
+			// clean hash from current URI
+			setCurrentUrl( getCurrentUrl().replace( /\#.*$/, '' ) );
+		}
 	} else {
 		return false;
 	}
@@ -80,6 +90,18 @@ function LoginButton( props ) {
 	const [ site, setSite ] = useContext( SiteContext );
 	const [ isUploading, setIsUploading ] = useState( true );
 
+	function logIn( setAuth ) {
+		if ( ! token ) {
+			let authObj = authDefaults;
+
+			wpcomOAuth.get( ( auth ) => {
+				authObj = auth;
+				setAuth( Object.assign( authDefaults, authObj ) );
+				alert("say goodbye and I choke");
+			} );
+		}
+	}
+
 	useEffect( () => {
 		getAuth( setAuth )
 		.then( ( response ) => {
@@ -110,7 +132,7 @@ function LoginButton( props ) {
 					</Flex>
 				</LoadButton>
 			:
-			<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
+			<LoadButton bg="transparent" border="1px" mr={5} onClick={ logIn } width="auto">
 				<span>Log in to WordPress</span>
 			</LoadButton>
 	);
