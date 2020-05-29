@@ -30,6 +30,8 @@ async function getAuth( setAuth ) {
 			'wpcom': wpcomFactory( token.access_token ),
 			'is_logged_in': true
 		} ) );
+
+		return true;
 	} else {
 		return false;
 	}
@@ -80,23 +82,37 @@ function LoginButton( props ) {
 
 	useEffect( () => {
 		getAuth( setAuth )
-		.then( () => {
-			getUser( auth, setUser, setIsUploading );
-			getSite( auth, setSite, setIsUploading );
+		.then( ( response ) => {
+			if ( response ) {
+				getUser( auth, setUser, setIsUploading );
+				getSite( auth, setSite, setIsUploading );
+			} else {
+				setUser( {
+					'user': null,
+					'is_logged_in': false,
+				} );
+				setSite( {
+					'site': null,
+					'site_is_loading': 'error',
+				} );
+
+				setIsUploading( false );
+			}
 		} );
-	}, [ auth, setAuth, setIsUploading ]);
+	}, [ auth, setAuth, setIsUploading, setUser, setSite ]);
 
 	return (
-		<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
-			{ auth.is_logged_in ?
-				<Flex align="center">
-					<ProfilePhoto data={ user } width="25px" mr={2} />
-					Hi, { user.user.first_name }!
-				</Flex>
+			auth.is_logged_in ?
+				<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
+					<Flex align="center">
+						<ProfilePhoto data={ user } width="25px" mr={2} />
+						Hi, { user.user.first_name }!
+					</Flex>
+				</LoadButton>
 			:
+			<LoadButton bg="transparent" border="1px" mr={5} isLoading={ isUploading } width="auto">
 				<span>Log in to WordPress</span>
-			}
-		</LoadButton>
+			</LoadButton>
 	);
 }
 
