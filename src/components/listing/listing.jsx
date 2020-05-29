@@ -27,7 +27,6 @@ function ProjectListing( props ) {
 		const wpcom = auth.wpcom;
 
 		const fetchData = async () => {
-			console.log("running");
 			await wpcom.req.get( `/read/tags/${props.tag}/posts?number=40` )
 				.then( ( data ) => {
 					setData( data );
