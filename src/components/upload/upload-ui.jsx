@@ -2,7 +2,7 @@ import React, { useMemo, useEffect, useState, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { formatBytes } from 'components/library';
 import { Flex } from "@chakra-ui/core";
-import { PostContext } from 'components/postmanager';
+import { PostContext } from 'contexts/post';
 
 const baseStyle = {
 	flex: 1,

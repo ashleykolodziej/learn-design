@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { Button, useToast, Spinner } from "@chakra-ui/core";
-import { auth, wpcom } from 'components/authorize';
-import { PostContext } from 'components/postmanager';
+import { AuthContext } from 'contexts/auth';
+import { PostContext } from 'contexts/post';
+
+const auth = AuthContext.auth;
+const wpcom = AuthContext.wpcom;
 
 /**
 * A set of explicitly supported components for exercises.
@@ -14,16 +17,16 @@ import { PostContext } from 'components/postmanager';
 * See https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
 */
 
-function LoadButton( { isLoading, children, ...props } ) {
+export function LoadButton( { isLoading, children, ...props } ) {
 	const [ width, setWidth ] = useState( 0 );
 	const [ height, setHeight ] = useState( 0 );
 	const ref = useRef( null );
 
 	useEffect( () => {
-		if ( ref.current && ref.current.getBoundingClientRect().width ) {
+		if ( ref.current && ref.current.getBoundingClientRect().width && props.keepWidth ) {
 			setWidth( ref.current.getBoundingClientRect().width );
 		}
-		if ( ref.current && ref.current.getBoundingClientRect().height ) {
+		if ( ref.current && ref.current.getBoundingClientRect().height && props.keepWidth ) {
 			setHeight( ref.current.getBoundingClientRect().height );
 		}
 	},
@@ -110,7 +113,7 @@ function WPSubmit( props ) {
 	}, [ context, setContext, toast, isUploading, props ] );
 
 	return (
-		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading }>
+		<LoadButton variantColor="green" onClick={ submit } isLoading={ isUploading } keepWidth>
 			{ props.text || "Submit" }
 		</LoadButton>
 	);

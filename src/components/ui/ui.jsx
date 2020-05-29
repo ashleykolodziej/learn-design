@@ -55,3 +55,11 @@ export function Options( props ) {
 
 	);
 }
+
+export function ProfilePhoto( props ) {
+	return (
+		<Box borderRadius={200} overflow="hidden" display="inline-block" mr={5} borderWidth="1px" width={75} {...props}>
+			<img src={props.data.user.avatar_URL} alt={props.data.user.display_name} />
+		</Box>
+	);
+}

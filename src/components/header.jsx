@@ -11,8 +11,6 @@ import Critique from "./templates/critique";
 import Inspiration from "./templates/inspiration";
 import data from "../data/class/site.json";
 
-//import { PostContext } from 'components/postmanager';
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -97,7 +95,7 @@ function Header( props ) {
         display={{ xs: "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <LoginButton />
+          <LoginButton />
         {/*
         <Button bg="transparent" border="1px" onClick={toggleColorMode}>
           Toggle {colorMode === "light" ? "Dark" : "Light"}

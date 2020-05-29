@@ -34,6 +34,7 @@ import {
 	RiMagicLine,
 	RiLightbulbLine } from "react-icons/ri";
 import WPSubmit from 'components/WPSubmit';
+import { PostContext } from 'contexts/post';
 
 /**
 * A set of explicitly supported components for exercises.
@@ -160,10 +161,17 @@ const key = [
 	}
 ];
 
+const testpost = {
+	title: 'Test Context',
+	tags: [
+		''
+	]
+}
+
 function Tabby( props ) {
 	const point = props.point;
 
-	const [value, setValue] = useState( props.defaultValue );
+	const [ value, setValue ] = useState( props.defaultValue );
 
 	function updateText( data ) {
 		setValue( data );
@@ -211,7 +219,10 @@ function DataTabs({ data }) {
 }
 
 function CritiqueForm() {
+	const [ context, setContext ] = useState( testpost );
+
 	return (
+		<PostContext.Provider value={ [ context, setContext ] }>
 		<Grid templateColumns="repeat(4, 1fr)" gridGap={10}>
 			<Box gridColumn="span 2" bg='gray.100'>
 			</Box>
@@ -231,6 +242,7 @@ function CritiqueForm() {
 				<WPSubmit text="Submit Feedback" />
 			</Box>
 		</Grid>
+		</PostContext.Provider>
 	);
 }
 
