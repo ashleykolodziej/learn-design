@@ -1,6 +1,6 @@
 # Learn Design
 
-An open, react-based set of experimental exercises for students to learn design components, focused on deliberately limiting tools, promoting games, and encouraging exploration.
+A react-based set of experimental exercises for students to learn design components, focused on deliberately limiting tools, promoting games, and encouraging exploration.
 
 - [Roadmap](https://github.com/ashleykolodziej/learn-design/projects/3)
 - [Core Skills](https://github.com/ashleykolodziej/learn-design/projects/1)
